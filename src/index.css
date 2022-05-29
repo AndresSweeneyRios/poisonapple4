@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap');
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  font-family: Atkinson Hyperlegible;
+}
+
+:root {
+  background-color: rgb(5, 8, 11);
+  color: white;
+}
+
+main {
+  min-width: 100%;
+  min-height: 100vh;
+  background: url("./assets/dissolve.png");
+  background-size: 256px;
+  background-attachment: fixed;
+  position: relative;
+}
+
+main > h1 {
+  font-weight: 400;
+}
