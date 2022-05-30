@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="49.493336mm"
+   height="52.559704mm"
+   viewBox="0 0 49.493335 52.559704"
+   version="1.1"
+   id="svg8"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
+   sodipodi:docname="everfall.svg">
+  <defs
+     id="defs2">
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="a">
+      <path
+         id="path815"
+         d="M 0,1000 H 1000 V 0 H 0 Z"
+         inkscape:connector-curvature="0" />
+    </clipPath>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#141315"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.7"
+     inkscape:cx="457.34521"
+     inkscape:cy="-25.813694"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1027"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(89.091732,-61.321339)">
+    <g
+       id="g843"
+       transform="matrix(1.0000013,0,0,1.0000013,-89.091154,61.322684)">
+      <g
+         id="g828"
+         transform="matrix(0.35278,0,0,-0.35278,-11.05,203.83)"
+         clip-path="url(#a)">
+        <path
+           id="path822"
+           d="m 78.173,576.784 93.443,-53.95 -91.79,-52.996 v 24.577 l 52.747,30.454 -72.105,41.598 z"
+           inkscape:connector-curvature="0"
+           style="fill:#ffffff"
+           sodipodi:nodetypes="ccccccc" />
+        <path
+           id="path824"
+           d="m 31.321,469.887 v 107.899 l 91.792,-52.996 -21.284,-12.288 -52.748,30.454 0.027,-83.244 z"
+           inkscape:connector-curvature="0"
+           style="fill:#ffffff" />
+        <path
+           id="path826"
+           d="M 147.268,482.748 53.824,428.799 53.825,534.79 75.108,522.502 v -60.908 l 72.077,41.645 z"
+           inkscape:connector-curvature="0"
+           style="fill:#ffffff" />
+      </g>
+    </g>
+  </g>
+</svg>
