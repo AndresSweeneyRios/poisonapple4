@@ -4,7 +4,7 @@
   }
 
   100% {
-    background-position: -100% 100%;
+    background-position: 100% 100%;
   }
 }
 
@@ -17,6 +17,9 @@
   background: url("../assets/cracks.png");
   background-size: 640px;
   animation: background-scroll 60s linear infinite;
+  /* background: url("../assets/color-bars.png");
+  background-size: cover;
+  background-position: center; */
   z-index: -1;
   filter: blur(10px);
   transform: scale(1.2);

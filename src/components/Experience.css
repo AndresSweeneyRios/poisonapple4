@@ -1,0 +1,159 @@
+.experience {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 1em;
+}
+
+.experience-box {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  /* box-shadow: inset 0 0 3em 0px rgba(0, 0, 0, 0.259); */
+  padding: 1.25rem;
+  background: url("../assets/dissolve.png") center;
+  background-attachment: fixed;
+  background-size: 256px;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+/* .experience-box:last-child {
+  padding-bottom: 1.25rem;
+} */
+
+.experience-box > h1 {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
+.experience-box > h1 {
+  /* font-weight: 600; */
+  text-transform: uppercase;
+  font-size: 2.1em;
+  letter-spacing: 1px;
+}
+
+.experience-box > h1 > span {
+  font-size: 0.6em;
+}
+
+.experience-box > h1 .date {
+  font-size: 0.6em;
+  font-weight: 400;
+} 
+
+.experience-box > h1 > svg, .experience-item .bar {
+  width: 3.2rem;
+}
+
+.experience-item {
+  display: flex;
+  align-items: stretch;
+}
+
+.experience-item:last-child .bar {
+  clip-path: inset(0 0 calc(100% - (3.2rem / 2) - 4px) 0);
+}
+
+.experience-item .bar {
+  flex-grow: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.75;
+  overflow: hidden;
+  margin-right: 1rem;
+}
+
+.experience-item:not(:last-child) > div > *:last-child {
+  padding-bottom: 1rem;
+}
+
+.experience-item .bar::before {
+  content: '';
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  border-left: 2px solid white;
+  transform: translate(calc(50% - 1px), 0);
+  opacity: 0.2;
+}
+
+.experience-item .bar::after {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background-color: white;
+  top: calc(3.2rem / 2 - 4px)
+}
+
+.experience-item .title {
+  font-size: 1.3em;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  height: 3.2rem;
+}
+
+.experience-item .title span {
+  font-size: 0.75em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.experience-item .description {
+  width: 100%;
+  margin-top: -0.8em;
+  font-size: 1.2em;
+}
+
+.experience-item .links {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  transform: translateX(-2px);
+}
+
+.experience-item .links .icon-link {
+  font-size: 1em;
+}
+
+.experience-item > div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.experience-item .screenshots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.experience-item .screenshots a {
+  height: 10em;
+  width: 16em;
+  filter: saturate(75%) brightness(85%);
+  background-size: auto 110%;
+  background-position: center;
+  border-radius: 5px;
+  border: 2px dashed rgba(255, 255, 255, 0.4);
+  transition: background-size 0.15s;
+}
+
+.experience-item .screenshots a:hover {
+  background-size: auto 120%;
+}
+
+.experience .technologies {
+  display: flex;
+  gap: 0.5rem;
+}

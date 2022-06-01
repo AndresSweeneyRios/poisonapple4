@@ -24,14 +24,7 @@ module.exports = () => ({
       },
       {
         test: /\.(svg|woff|woff2|eot|ttf|otf|fbx)$/,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              esModule: false,
-            },
-          },
-        ],
+        type: 'asset/resource',
       },
       {
         test: /png|jpg|webp|gif/,

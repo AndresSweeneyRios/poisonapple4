@@ -1,0 +1,21 @@
+.icon-link {
+  color: var(--text-dark);
+  opacity: 0.75;
+  transition: opacity 0.1s, color 0.1s;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.icon-link:hover {
+  color: white;
+  opacity: 1;
+}
+
+.icon-link svg {
+  width: 1.2em;
+}
