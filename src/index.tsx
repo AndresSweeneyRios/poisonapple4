@@ -5,7 +5,7 @@ import { Background } from "./components/Background"
 import Apple from "./assets/lowpoly_apple_transparent.webp"
 import SVG from "react-inlinesvg"
 import Amihan from "../assets/projects/amihan.svg"
-import { Experience } from "./components/Experience"
+import { AestellExperienceBox, AmihanExperienceBox, BareshelvesExperienceBox as FwdslashExperienceBox } from "./components/Experience"
 
 const App: React.FC = () => {
   return (
@@ -26,7 +26,12 @@ const App: React.FC = () => {
           </div>
         </section>
         
-        <Experience title="Professional Experience" />
+        <section className="experience">
+          <h1>Experience</h1>
+          <AmihanExperienceBox />
+          <FwdslashExperienceBox />
+          <AestellExperienceBox />
+        </section>
       </main>
     </>
   )
