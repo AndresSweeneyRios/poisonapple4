@@ -10,6 +10,7 @@
   background-attachment: fixed;
   background-size: 256px; */
   background-color: rgba(255, 255, 255, 0.03);
+  letter-spacing: 0.2px;
 }
 
 .tech-badge svg {
