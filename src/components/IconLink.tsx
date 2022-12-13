@@ -7,11 +7,11 @@ import Gamejolt from "../assets/icons/gamejolt.svg"
 import Github from "../assets/icons/github.svg"
 import Website from "../assets/icons/globe.svg"
 import Linkedin from "../assets/icons/linkedin.svg"
-import Npm from "../assets/icons/Npm.svg"
-import Soundcloud from "../assets/icons/Soundcloud.svg"
-import Twitch from "../assets/icons/Twitch.svg"
-import Twitter from "../assets/icons/Twitter.svg"
-import Youtube from "../assets/icons/Youtube.svg"
+import Npm from "../assets/icons/npm.svg"
+import Soundcloud from "../assets/icons/soundcloud.svg"
+import Twitch from "../assets/icons/twitch.svg"
+import Twitter from "../assets/icons/twitter.svg"
+import Youtube from "../assets/icons/youtube.svg"
 
 export const LinkType = {
   Discord,
