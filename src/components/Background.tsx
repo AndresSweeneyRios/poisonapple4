@@ -4,8 +4,8 @@ import "./Background.css"
 
 const simplex = new SimplexNoise(Math.random)
 
-const WIDTH = 480
-const HEIGHT = 480
+const WIDTH = 240
+const HEIGHT = WIDTH / (window.innerWidth / window.innerHeight)
 
 const vertexShader = /*glsl*/`
   precision mediump float;
@@ -175,7 +175,7 @@ generateTexture()
 
 const init = (gl: WebGLRenderingContext) => {
   gl.canvas.width = WIDTH
-  gl.canvas.height = gl.canvas.width
+  gl.canvas.height = HEIGHT
 
   const program = createProgram(
     gl,
