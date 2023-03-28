@@ -1,16 +1,17 @@
 import React, { useEffect } from 'react'
 import SimplexNoise from 'simplex-noise'
 import "./Background.css"
+import HighPGlsl from "../glsl/HighPrecisionMath"
 
 const simplex = new SimplexNoise(Math.random)
 
-const WIDTH = 240
+const WIDTH = 640
 const HEIGHT = WIDTH / (window.innerWidth / window.innerHeight)
 
 const vertexShader = /*glsl*/`
-  precision mediump float;
-  attribute mediump vec2 a_position;
-  uniform mediump vec2 u_resolution;
+  precision highp float;
+  attribute highp vec2 a_position;
+  uniform highp vec2 u_resolution;
   attribute vec2 a_texcoord;
 
   varying highp vec2 v_texcoord;
@@ -25,89 +26,149 @@ const vertexShader = /*glsl*/`
   }
 `
 
-const fragmentShader = /*glsl*/`
-  precision mediump float;
-  uniform mediump vec2 u_resolution;
-  uniform sampler2D u_sampler;
-  uniform float u_wavelength;
+// const fragmentShader = /*glsl*/`
+//   precision mediump float;
+//   uniform mediump vec2 u_resolution;
+//   uniform sampler2D u_sampler;
+//   uniform float u_wavelength;
 
-  varying highp vec2 v_texcoord;
+//   varying highp vec2 v_texcoord;
 
-  vec4 getPixel(vec2 position) {
-    return texture2D(u_sampler, position);
-  }
+//   vec4 getPixel(vec2 position) {
+//     return texture2D(u_sampler, position);
+//   }
 
-  int getNeighbors(vec2 position) {
-    float neighbors = 0.0;
+//   int getNeighbors(vec2 position) {
+//     float neighbors = 0.0;
 
-    float onx = 1.0 / u_resolution.x;
-    float ony = 1.0 / u_resolution.y;
+//     float onx = 1.0 / u_resolution.x;
+//     float ony = 1.0 / u_resolution.y;
 
-    neighbors += getPixel(vec2(position.x + onx, position.y - ony)).a;
-    neighbors += getPixel(vec2(position.x + 0.0, position.y - ony)).a;
-    neighbors += getPixel(vec2(position.x + onx, position.y + 0.0)).a;
-    neighbors += getPixel(vec2(position.x + onx, position.y + ony)).a;
-    neighbors += getPixel(vec2(position.x + 0.0, position.y + ony)).a;
-    neighbors += getPixel(vec2(position.x - onx, position.y + ony)).a;
-    neighbors += getPixel(vec2(position.x - onx, position.y + 0.0)).a;
-    neighbors += getPixel(vec2(position.x - onx, position.y - ony)).a;
+//     neighbors += getPixel(vec2(position.x + onx, position.y - ony)).a;
+//     neighbors += getPixel(vec2(position.x + 0.0, position.y - ony)).a;
+//     neighbors += getPixel(vec2(position.x + onx, position.y + 0.0)).a;
+//     neighbors += getPixel(vec2(position.x + onx, position.y + ony)).a;
+//     neighbors += getPixel(vec2(position.x + 0.0, position.y + ony)).a;
+//     neighbors += getPixel(vec2(position.x - onx, position.y + ony)).a;
+//     neighbors += getPixel(vec2(position.x - onx, position.y + 0.0)).a;
+//     neighbors += getPixel(vec2(position.x - onx, position.y - ony)).a;
 
-    return int(neighbors);
-  }
+//     return int(neighbors);
+//   }
 
-  void main() {
-    vec2 st = gl_FragCoord.xy / u_resolution;
+//   void main() {
+//     vec2 st = gl_FragCoord.xy / u_resolution;
 
-    vec4 cell = getPixel(st.xy);
+//     vec4 cell = getPixel(st.xy);
 
-    float onx = 1.0 / u_resolution.x;
-    float ony = 1.0 / u_resolution.y;
+//     float onx = 1.0 / u_resolution.x;
+//     float ony = 1.0 / u_resolution.y;
 
-    int neighbors = getNeighbors(st.xy);
-    int neighborNeighbors = getNeighbors(st.xy * 0.5);
+//     int neighbors = getNeighbors(st.xy);
+//     int neighborNeighbors = getNeighbors(st.xy * 0.5);
 
-    float wasDead = float(cell.a == 0.8);
-    float wasAlive = float(cell.a == 1.0);
-    float isAlive = float(
-      (cell.a == 1.0 && (neighbors == 2 || (neighbors > 3 && neighbors < 8 && neighborNeighbors < 4))) || 
-      (cell.a == 0.0 && neighbors == 3) ||
-      (cell.a == 0.8 && neighbors == 4)
-      // (
-      //   int(cell.a) + 
-      //   getNeighbors(st.xy + vec2(-onx * 12.0, ony * 12.0)) +
-      //   getNeighbors(st.xy + vec2(onx * 12.0, -ony * 12.0)) +
-      //   getNeighbors(st.xy + vec2(-onx * 12.0, -ony * 12.0)) +
-      //   getNeighbors(st.xy + vec2(onx * 12.0, ony * 12.0)) == 0
-      // )
-    );
+//     float wasDead = float(cell.a == 0.8);
+//     float wasAlive = float(cell.a == 1.0);
+//     float isAlive = float(
+//       (cell.a == 1.0 && (neighbors == 2 || (neighbors > 3 && neighbors < 8 && neighborNeighbors < 4))) || 
+//       (cell.a == 0.0 && neighbors == 3) ||
+//       (cell.a == 0.8 && neighbors == 4)
+//       // (
+//       //   int(cell.a) + 
+//       //   getNeighbors(st.xy + vec2(-onx * 12.0, ony * 12.0)) +
+//       //   getNeighbors(st.xy + vec2(onx * 12.0, -ony * 12.0)) +
+//       //   getNeighbors(st.xy + vec2(-onx * 12.0, -ony * 12.0)) +
+//       //   getNeighbors(st.xy + vec2(onx * 12.0, ony * 12.0)) == 0
+//       // )
+//     );
     
-    gl_FragColor = vec4(
-      (isAlive * 0.4) + ((wasAlive + wasDead) * 0.3), 
-      (isAlive * 0.6) + ((wasAlive + wasDead) * 0.1), 
-      isAlive + (wasDead * 1.5), 
-      isAlive + (wasAlive * 0.8) + (wasDead * 0.5)
-    );
+//     gl_FragColor = vec4(
+//       (isAlive * 0.4) + ((wasAlive + wasDead) * 0.3), 
+//       (isAlive * 0.6) + ((wasAlive + wasDead) * 0.1), 
+//       isAlive + (wasDead * 1.5), 
+//       isAlive + (wasAlive * 0.8) + (wasDead * 0.5)
+//     );
+//   }
+// `
+
+// Mandelbrot
+const fragmentShader = /*glsl*/`
+  precision highp float;
+  uniform highp vec2 u_resolution;
+
+  ${HighPGlsl}
+  
+  const float maxIterations = 3000.0;
+  const int maxIterationsInt = 3000;
+
+  float mandelbrot(vec3 coordx, vec3 coordy){
+    vec3 two = hp32_set(2.0);
+
+    vec2 z = vec2(0.0, 0.0);
+
+    vec3 zx = vec3(0,0,0);
+    vec3 zy = vec3(0,0,0);
+
+    for(int i = 0; i < maxIterationsInt; i++){
+      vec3 x = hp32_sub(hp32_mul(zx, zx), hp32_mul(zy, zy));
+      vec3 y = hp32_mul(hp32_mul(two, zx), zy);
+
+      zx = hp32_add(x, coordx);
+      zy = hp32_add(y, coordy);
+
+      float l = hp32_get(hp32_add(hp32_mul(zx, zx), hp32_mul(zy,zy)));
+
+      if (l > 2.0) {
+        return float(i) / maxIterations;
+      }
+    }
+
+    return maxIterations;
   }
-`
 
-const postprocessingFragmentShader = /*glsl*/`
-  precision mediump float;
-  uniform mediump vec2 u_resolution;
-  uniform sampler2D u_sampler;
-  uniform float u_wavelength;
+  void main () {
+    float screen_ratio = u_resolution.x / u_resolution.y;
 
-  varying highp vec2 v_texcoord;
-
-  vec4 getPixel(vec2 position) {
-    return texture2D(u_sampler, position);
-  }
-
-  void main() {
     vec2 st = gl_FragCoord.xy / u_resolution;
 
-    gl_FragColor = getPixel(st.xy);
+    st.x *= screen_ratio;
+    st.x -= 0.5;
+    st.y -= 0.5;
+
+    // pan
+    st.x -= 14048.5;
+
+    vec3 coordx = hp32_set(st.x);
+    vec3 coordy = hp32_set(st.y); 
+
+    vec3 zoom = hp32_set(0.0001); 
+    coordx = hp32_mul(coordx, zoom);
+    coordy = hp32_mul(coordy, zoom);
+
+    float m = mandelbrot(coordx, coordy);
+
+    gl_FragColor = vec4(1.0-m,1.0-m,1.0-m,1.0);
   }
 `
+
+// const postprocessingFragmentShader = /*glsl*/`
+//   precision mediump float;
+//   uniform mediump vec2 u_resolution;
+//   uniform sampler2D u_sampler;
+//   uniform float u_wavelength;
+
+//   varying highp vec2 v_texcoord;
+
+//   vec4 getPixel(vec2 position) {
+//     return texture2D(u_sampler, position);
+//   }
+
+//   void main() {
+//     vec2 st = gl_FragCoord.xy / u_resolution;
+
+//     gl_FragColor = getPixel(st.xy);
+//   }
+// `
 
 const createShader = (gl: WebGLRenderingContext, type: number, source: string) => {
   const shader = gl.createShader(type)!
@@ -269,36 +330,36 @@ const init = (gl: WebGLRenderingContext) => {
     
     // setTimeout(render, 1000 / 30)
 
-    if (!skipRerender) {
-      requestAnimationFrame(() => render());
-    }
+    // if (!skipRerender) {
+    //   requestAnimationFrame(() => render());
+    // }
   }
 
   render()
 
   // prewarm
-  render(true)
-  render(true)
+  // render(true)
+  // render(true)
 
-  setInterval(() => {
-    generateTexture()
+  // setInterval(() => {
+  //   generateTexture()
 
-    gl.texImage2D(
-      gl.TEXTURE_2D, 
-      0, 
-      gl.RGBA, 
-      WIDTH, 
-      HEIGHT, 
-      0, 
-      gl.RGBA, 
-      gl.UNSIGNED_BYTE,
-      source,
-    )
+  //   gl.texImage2D(
+  //     gl.TEXTURE_2D, 
+  //     0, 
+  //     gl.RGBA, 
+  //     WIDTH, 
+  //     HEIGHT, 
+  //     0, 
+  //     gl.RGBA, 
+  //     gl.UNSIGNED_BYTE,
+  //     source,
+  //   )
   
-    // prewarm
-    render(true)
-    render(true)
-  }, 30000)
+  //   // prewarm
+  //   render(true)
+  //   render(true)
+  // }, 30000)
 }
 
 // const canvas = document.createElement('canvas')

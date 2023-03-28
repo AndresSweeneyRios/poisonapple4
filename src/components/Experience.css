@@ -2,11 +2,15 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  align-items: flex-start;
   gap: 1em;
 }
 
+.experience h1 {
+  display: inline-block;
+}
+
 .experience-box {
-  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -52,6 +56,11 @@
 .experience-item {
   display: flex;
   align-items: stretch;
+  font-size: 1.2em;
+}
+
+.experience-item div:not(.bar) {
+  padding-bottom: 0.5em;
 }
 
 .experience-item:last-child .bar {
@@ -96,7 +105,7 @@
 }
 
 .experience-item .title {
-  font-size: 1.3em;
+  font-size: 1.2em;
   display: flex;
   align-items: center;
   gap: 0.8rem;
@@ -114,6 +123,7 @@
   margin-top: -0.8em;
   font-size: 1.2em;
   max-width: 35em;
+  line-height: 1.4em;
 }
 
 .experience-item .links {
@@ -138,26 +148,45 @@
 }
 
 .experience-item .screenshots {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
   gap: 0.5rem;
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto;
 }
 
 .experience-item .screenshots a {
+  font-size: 0.9em;
   height: 10em;
   width: 16em;
   filter: saturate(75%) brightness(85%);
   background-size: auto 110%;
   background-position: center;
   border-radius: 5px;
-  border: 2px dashed rgba(255, 255, 255, 0.4);
+  border: 2px dashed rgba(255, 255, 255, 0.6);
   transition: background-size 0.1s ease-out;
+  position: relative;
+  overflow: hidden;
 }
 
 .experience-item .screenshots a:hover {
   background-size: auto 120%;
+}
+
+.experience .screenshots a video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.1);
+  transition: transform 0.1s ease-out;
+}
+
+.experience-item .screenshots a:hover video {
+  transform: scale(1.2);
 }
 
 .experience .technologies {

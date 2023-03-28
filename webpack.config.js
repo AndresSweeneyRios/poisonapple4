@@ -27,7 +27,7 @@ module.exports = () => ({
         type: 'asset/resource',
       },
       {
-        test: /png|jpg|webp|gif/,
+        test: /png|jpg|webp|gif|webm/,
         type: 'asset',
       },
       {

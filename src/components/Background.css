@@ -13,16 +13,16 @@
   height: 100vh;
   overflow: hidden;
   position: fixed;
-  opacity: 1;
-  background: url("../assets/cracks.png");
+  /* opacity: 0.3; */
+  /* background: url("../assets/cracks.png");
   background-size: 640px;
-  animation: background-scroll 60s linear infinite;
+  animation: background-scroll 60s linear infinite; */
   /* background: url("../assets/color-bars.png");
   background-size: cover;
   background-position: center; */
   z-index: -1;
-  filter: blur(10px);
-  transform: scale(1.2);
+  /* filter: blur(10px); */
+  /* transform: scale(1.2); */
 }
 
 #background > canvas {
@@ -33,7 +33,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  opacity: 0.5;
+  opacity: 1;
 }
 
 @media (max-aspect-ratio: 1 / 1) {

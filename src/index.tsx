@@ -11,6 +11,8 @@ const App: React.FC = () => {
   return (
     <>
       {/* <Background /> */}
+
+      <div id="background" />
       
       <main>
         <section id="intro">
@@ -19,7 +21,7 @@ const App: React.FC = () => {
             <h1>Hey, I'm Andres Sweeney-Rios</h1>
             <p className="text-dark">
               I'm a generalist software engineer from California. I work mostly 
-              in web development (fullstack), gameplay engineering, and realtime networking, 
+              in web development (fullstack, frontend focused), gameplay engineering, and realtime networking, 
               but I also have an interest in tools development, web design, 
               graphics programming, and audio programming.
             </p>
@@ -33,6 +35,10 @@ const App: React.FC = () => {
           <AestellExperienceBox />
           <AeternumExperienceBox />
           <StardustExperienceBox />
+        </section>
+        
+        <section>
+          <h1>Hobbies</h1>
         </section>
       </main>
     </>

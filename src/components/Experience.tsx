@@ -11,28 +11,47 @@ import Aestell from "../assets/projects/aestell.svg"
 import Aeternum from "../assets/projects/firefight.svg"
 import Stardust from "../assets/projects/stardust.svg"
 
-import SnicksnackKeepsies from "../assets/screenshots/snicksnack-keepsies.png"
-import SnicksnackOverworld from "../assets/screenshots/snicksnack-overworld.png"
-import SnicksnackWardrobe from "../assets/screenshots/snicksnack-wardrobe.png"
-import EverseedLanding from "../assets/screenshots/everseed-landing.png"
-import EverseedModel from "../assets/screenshots/everseed-model.png"
-import ElixirSale from "../assets/screenshots/elixir-sale.png"
-import ElixirScroll from "../assets/screenshots/elixir-scroll.png"
-import AvatarLanding from "../assets/screenshots/avatar-landing.png"
-import AvatarCulture from "../assets/screenshots/avatar-culture.png"
-import AvatarCustomizer from "../assets/screenshots/avatar-customizer.png"
-import RakeggScreenshot from "../assets/screenshots/rakegg.gif"
-import Altx from "../assets/screenshots/altx.gif"
-import Emailsgg from "../assets/screenshots/emails_gg.png"
-import FirefightScreenshot from "../assets/screenshots/firefight.png"
-import StardustScreenshot from "../assets/screenshots/stardust.gif"
+import SnicksnackKeepsies from "../assets/screenshots/snicksnack-keepsies-small.webp"
+import SnicksnackOverworld from "../assets/screenshots/snicksnack-overworld-small.webp"
+import SnicksnackWardrobe from "../assets/screenshots/snicksnack-wardrobe-small.webp"
+import EverseedLanding from "../assets/screenshots/everseed-landing-small.webp"
+import EverseedModel from "../assets/screenshots/everseed-model-small.webp"
+import ElixirSale from "../assets/screenshots/elixir-sale-small.webp"
+import ElixirScroll from "../assets/screenshots/elixir-scroll-small.webp"
+import AvatarLanding from "../assets/screenshots/avatar-landing-small.webp"
+import AvatarCulture from "../assets/screenshots/avatar-culture-small.webp"
+import AvatarCustomizer from "../assets/screenshots/avatar-customizer-small.webp"
+import RakeggScreenshot from "../assets/screenshots/rakegg-small.webm"
+import Altx from "../assets/screenshots/altx-small.webm"
+import FirefightScreenshot from "../assets/screenshots/firefight-small.webp"
+import StardustScreenshot from "../assets/screenshots/stardust-small.webm"
+
+import SnicksnackKeepsiesFull from "../assets/screenshots/snicksnack-keepsies.webp"
+import SnicksnackOverworldFull from "../assets/screenshots/snicksnack-overworld.webp"
+import SnicksnackWardrobeFull from "../assets/screenshots/snicksnack-wardrobe.webp"
+import EverseedLandingFull from "../assets/screenshots/everseed-landing.webp"
+import EverseedModelFull from "../assets/screenshots/everseed-model.webp"
+import ElixirSaleFull from "../assets/screenshots/elixir-sale.webp"
+import ElixirScrollFull from "../assets/screenshots/elixir-scroll.webp"
+import AvatarLandingFull from "../assets/screenshots/avatar-landing.webp"
+import AvatarCultureFull from "../assets/screenshots/avatar-culture.webp"
+import AvatarCustomizerFull from "../assets/screenshots/avatar-customizer.webp"
+import RakeggScreenshotFull from "../assets/screenshots/rakegg.webm"
+import AltxFull from "../assets/screenshots/altx.webm"
+import FirefightScreenshotFull from "../assets/screenshots/firefight.webp"
+import StardustScreenshotFull from "../assets/screenshots/stardust.webm"
 
 export const Screenshot: React.FC<{
   url: string
+  fullUrl: string
   title: string
 }> = (props) => {
-  return (
-    <a style={{ backgroundImage: `url(${props.url})` }} href={props.url} title={props.title} />
+  return /.webm$/.test(props.url) ? (
+    <a href={props.fullUrl} title={props.title}>
+      <video src={props.url} muted loop autoPlay />
+    </a>
+  ) : (
+    <a style={{ backgroundImage: `url(${props.url})` }} href={props.fullUrl} title={props.title} />
   )
 }
 
@@ -68,9 +87,9 @@ export const ExperienceItem: React.FC<{
           {props.technologies.map(t => <TechBadge type={t} key={t} />)}
         </div>
 
-        {/* <div className="screenshots">
+        <div className="screenshots">
           {props.screenshots}
-        </div> */}
+        </div>
 
         <div className="spacer" />
       </div>
@@ -119,9 +138,9 @@ export const AmihanExperienceBox: React.FC = (props) => {
         ]}
 
         screenshots={<>
-          <Screenshot url={SnicksnackOverworld} title="Overworld Screenshot" />
-          <Screenshot url={SnicksnackKeepsies} title="Keepsies Screenshot" />
-          <Screenshot url={SnicksnackWardrobe} title="Wardrobe Screenshot" />
+          <Screenshot url={SnicksnackOverworld} fullUrl={SnicksnackOverworldFull} title="Overworld Screenshot" />
+          <Screenshot url={SnicksnackKeepsies} fullUrl={SnicksnackKeepsiesFull} title="Keepsies Screenshot" />
+          <Screenshot url={SnicksnackWardrobe} fullUrl={SnicksnackWardrobeFull} title="Wardrobe Screenshot" />
         </>}
       />
 
@@ -198,8 +217,8 @@ export const AmihanExperienceBox: React.FC = (props) => {
         ]}
 
         screenshots={<>
-          <Screenshot url={EverseedLanding} title="Everseed Website Landing" />
-          <Screenshot url={EverseedModel} title="Everseed Model Viewer" />
+          <Screenshot url={EverseedLanding} fullUrl={EverseedLandingFull} title="Everseed Website Landing" />
+          <Screenshot url={EverseedModel} fullUrl={EverseedModelFull} title="Everseed Model Viewer" />
         </>}
       />
 
@@ -231,11 +250,11 @@ export const AmihanExperienceBox: React.FC = (props) => {
         ]}
 
         screenshots={<>
-          <Screenshot url={ElixirScroll} title="Elixir Scroll" />
-          <Screenshot url={ElixirSale} title="Elixir Sale" />
-          <Screenshot url={AvatarLanding} title="Avatar Creator Landing" />
-          <Screenshot url={AvatarCulture} title="Avatar Culture" />
-          <Screenshot url={AvatarCustomizer} title="Avatar Customizer" />
+          <Screenshot url={ElixirScroll} fullUrl={ElixirScrollFull} title="Elixir Scroll" />
+          <Screenshot url={ElixirSale} fullUrl={ElixirSaleFull} title="Elixir Sale" />
+          <Screenshot url={AvatarLanding} fullUrl={AvatarLandingFull} title="Avatar Creator Landing" />
+          <Screenshot url={AvatarCulture} fullUrl={AvatarCultureFull} title="Avatar Culture" />
+          <Screenshot url={AvatarCustomizer} fullUrl={AvatarCustomizerFull} title="Avatar Customizer" />
         </>}
       />
     </div>
@@ -280,7 +299,7 @@ export const FwdslashExperienceBox: React.FC = (props) => {
         ]}
 
         screenshots={<>
-          <Screenshot url={RakeggScreenshot} title="Rake.GG Jackpot" />
+          <Screenshot url={RakeggScreenshot} fullUrl={RakeggScreenshotFull} title="Rake.GG Jackpot" />
         </>}
       />
     </div>  
@@ -321,7 +340,7 @@ export const AestellExperienceBox: React.FC = (props) => {
         ]}
 
         screenshots={<>
-          <Screenshot url={Altx} title="AltX" />
+          <Screenshot url={Altx} fullUrl={AltxFull} title="AltX" />
         </>}
       />
 
@@ -344,7 +363,6 @@ export const AestellExperienceBox: React.FC = (props) => {
         ]}
 
         screenshots={<>
-          {/* <Screenshot url={Emailsgg} title="Emails.GG" /> */}
         </>}
       />
 
@@ -366,7 +384,6 @@ export const AestellExperienceBox: React.FC = (props) => {
         ]}
 
         screenshots={<>
-          {/* <Screenshot url={Emailsgg} title="Emails.GG" /> */}
         </>}
       />
     </div>  
@@ -406,7 +423,7 @@ export const AeternumExperienceBox: React.FC = () => {
         ]}
 
         screenshots={<>
-          <Screenshot url={FirefightScreenshot} title="Firefight Launcher" />
+          <Screenshot url={FirefightScreenshot} fullUrl={FirefightScreenshotFull} title="Firefight Launcher" />
         </>}
       />
     </div> 
@@ -448,7 +465,7 @@ export const StardustExperienceBox: React.FC = () => {
         ]}
 
         screenshots={<>
-          <Screenshot url={StardustScreenshot} title="Stardust Publisher Tools" />
+          <Screenshot url={StardustScreenshot} fullUrl={StardustScreenshotFull} title="Stardust Publisher Tools" />
         </>}
       />
     </div> 

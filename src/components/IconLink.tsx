@@ -35,9 +35,9 @@ export const IconLink: React.FC<{
     <a {...restProps} className="icon-link" title={title ?? type}>
       <SVG src={LinkType[type]} />
 
-      {restProps.href}
+      {/* {restProps.href} */}
 
-      {/* {title ?? type} */}
+      {title ?? type}
     </a>
   )
 }
