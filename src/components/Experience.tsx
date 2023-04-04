@@ -68,12 +68,14 @@ export const ExperienceItem: React.FC<{
       <div className="bar" />
 
       <div>
-        <h1 className="title">
-          {props.title}
-          <span className="text-dark">
-            ({props.role})
-          </span>
-        </h1>
+        {props.title !== null ? (
+          <h1 className="title">
+            {props.title}
+            <span className="text-dark">
+              ({props.role})
+            </span>
+          </h1>
+        ) : null}
 
         <p className="description text-dark">
           {props.description}
