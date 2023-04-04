@@ -301,7 +301,7 @@ export const FwdslashExperienceBox: React.FC = (props) => {
         ]}
 
         screenshots={<>
-          {/* <Screenshot url={RakeggScreenshot} fullUrl={RakeggScreenshotFull} title="Rake.GG Jackpot" /> */}
+          <Screenshot url={RakeggScreenshot} fullUrl={RakeggScreenshotFull} title="Rake.GG Jackpot" />
         </>}
       />
     </div>  
@@ -342,7 +342,7 @@ export const AestellExperienceBox: React.FC = (props) => {
         ]}
 
         screenshots={<>
-          {/* <Screenshot url={Altx} fullUrl={AltxFull} title="AltX" /> */}
+          <Screenshot url={Altx} fullUrl={AltxFull} title="AltX" />
         </>}
       />
 
@@ -467,7 +467,7 @@ export const StardustExperienceBox: React.FC = () => {
         ]}
 
         screenshots={<>
-          {/* <Screenshot url={StardustScreenshot} fullUrl={StardustScreenshotFull} title="Stardust Publisher Tools" /> */}
+          <Screenshot url={StardustScreenshot} fullUrl={StardustScreenshotFull} title="Stardust Publisher Tools" />
         </>}
       />
     </div> 
