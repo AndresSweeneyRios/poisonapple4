@@ -32,12 +32,12 @@ export const IconLink: React.FC<{
   href: string
 }> = ({ type, title, ...restProps }) => {
   return (
-    <a {...restProps} className="icon-link" title={title ?? type}>
+    <a {...restProps} className="icon-link" title={title ?? type} style={{ textTransform: "none" }}>
       <SVG src={LinkType[type]} />
 
-      {/* {restProps.href} */}
+      {restProps.href}
 
-      {title ?? type}
+      {/* {title ?? type} */}
     </a>
   )
 }

@@ -47,9 +47,10 @@ export const Screenshot: React.FC<{
   title: string
 }> = (props) => {
   return /.webm$/.test(props.url) ? (
-    <a href={props.fullUrl} title={props.title}>
-      <video src={props.url} muted loop autoPlay />
-    </a>
+    // <a href={props.fullUrl} title={props.title}>
+    //   <video src={props.url} muted loop autoPlay />
+    // </a>
+    null
   ) : (
     <a style={{ backgroundImage: `url(${props.url})` }} href={props.fullUrl} title={props.title} />
   )
@@ -120,8 +121,8 @@ export const AmihanExperienceBox: React.FC = (props) => {
         
         description={<>
           This was a social MMO with various minigames, shops, outfits, and a snowglobe builder.
-          I joined the team as a UI developer, and later worked on the backend and minigames, 
-          which were built in a mixture of web technologies &amp; Unity. The alpha is still
+          I joined the team as a UI developer and later worked on the backend and minigames, 
+          which were built in a mixture of web technologies and Unity. The alpha is still
           playable online.
         </>}
 
@@ -153,7 +154,7 @@ export const AmihanExperienceBox: React.FC = (props) => {
         description={<>
           After SnickSnack, we moved to a 3D browser game, where I led the engineering team to 
           lay the foundations for our prototype's code architecture, UI systems, gameplay loop, 
-          and several different art experiments, running benchmarks and configuring our art pipeline.  
+          and several different art experiments, running benchmarks, and configuring our art pipeline.  
         </>}
 
         links={<></>}
@@ -192,7 +193,7 @@ export const AmihanExperienceBox: React.FC = (props) => {
         role="Gameplay, Tools Development, UI Development, Frontend Web"
         
         description={<>
-          We transitioned to a new roguelike tower defense prototype <b>Everseed</b>, 
+          We transitioned to a new roguelike tower defense prototype, <b>Everseed</b>, 
           where you grow plants to defend against enemy waves. My role on this project 
           has been primarily in architecture, gameplay, and UI, with a focus on building 
           tooling for the design team. We launched a closed playtest in May 2022, and the 
@@ -229,14 +230,14 @@ export const AmihanExperienceBox: React.FC = (props) => {
         role="Frontend Web"
         
         description={<>
-          In preparation for our first NFT launch, I worked with the art &amp; engineering teams 
+          In preparation for our first NFT launch, I worked with the art and engineering teams,
           where I was responsible for developing the UI to create the <b>Everseed Elixir Website</b>, 
           which was a digital shop where you could purchase what was known as an <i>elixir</i>. This 
           would be consumed by the avatar creator when minting your avatar. Elixir sales on this website are now closed.
           <br /><br />
           Shortly after, we also launched the <b>Everseed Avatar Creator</b>, a character customizer 
           that required an elixir to mint a new avatar that would be attached to your account for 
-          the core game. I was again responsible for UI development mainly. The customizer portion 
+          the core game. I was again responsible for UI development, mainly. The customizer portion 
           of this website is still online and functional.
         </>}
 
@@ -283,7 +284,7 @@ export const FwdslashExperienceBox: React.FC = (props) => {
         role="Fullstack Web"
 
         description={<>
-          I worked on this online crypto casino as a fullstack developer, responsible for 
+          I worked on this online crypto casino as a full-stack developer, responsible for 
           interfacing with APIs such as Infura and BlockCypher for managing funds, integrating 
           it with the frontend, and creating 3D visuals for the minigames. 
         </>}
@@ -329,7 +330,7 @@ export const AestellExperienceBox: React.FC = (props) => {
 
         description={<>
           A set of tools used in automating the user’s web browser. I joined an existing team 
-          to improve workflows and refactor code from previous frontend developers, and created 
+          to improve workflows, refactor code from previous frontend developers, and create 
           new content utilizing SVG animations.
         </>}
 
@@ -351,7 +352,7 @@ export const AestellExperienceBox: React.FC = (props) => {
         role="Fullstack Web"
 
         description={<>
-          I led the team building Supscript, a service to provide users with a way to receive 
+          I led the team building Supscript, a service that provides users with a way to receive 
           notifications for new sales on limited items. I built a dashboard for this app, 
           an admin panel, a subscription system, and various statistics pages.
         </>}
@@ -373,8 +374,8 @@ export const AestellExperienceBox: React.FC = (props) => {
         role="Fullstack Web"
 
         description={<>
-          Our team built a mailing client to manage numerous email addresses simultaneously, 
-          and to filter through them for important mail. I designed and wrote the frontend, and 
+          Our team built a mailing client to manage numerous email addresses simultaneously
+          and filter through them for important mail. I designed and wrote the frontend and 
           maintained the backend after release.
         </>}
 
