@@ -33,6 +33,7 @@ import Koa from './koa.svg'
 import Kubernetes from './kubernetes.svg'
 import Mollie from './mollie.svg'
 import MongoDB from './mongodb.svg'
+import NextJS from './nextjs.svg'
 import NGINX from './nginx.svg'
 // import Parcel from './parcel.png'
 import Paypal from './paypal.svg'
@@ -42,6 +43,7 @@ import Phonegap from './phonegap.svg'
 import Photoshop from './photoshop.svg'
 import PixiJS from './pixijs.svg'
 import PostCSS from './postcss.svg'
+import PWA from './pwa.svg'
 import React from './react.svg'
 import SASS from './sass.svg'
 import Shopify from './shopify.svg'
@@ -98,6 +100,7 @@ export const Technologies: Technology[] = [
   { name: 'Kubernetes', icon: Kubernetes },
   { name: 'Mollie', icon: Mollie },
   { name: 'MongoDB', icon: MongoDB },
+  { name: 'NextJS', icon: NextJS },
   { name: 'NGINX', icon: NGINX },
   { name: 'Paypal', icon: Paypal },
   { name: 'Phantom', icon: Phantom },
@@ -106,6 +109,7 @@ export const Technologies: Technology[] = [
   { name: 'Photoshop', icon: Photoshop },
   { name: 'PixiJS', icon: PixiJS },
   { name: 'PostCSS', icon: PostCSS },
+  { name: 'PWA', icon: PWA },
   { name: 'React', icon: React },
   { name: 'SASS', icon: SASS },
   { name: 'Shopify', icon: Shopify },
