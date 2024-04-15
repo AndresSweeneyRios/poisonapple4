@@ -1,3 +1,5 @@
+import "./home.css"
+
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-constant-condition */
 import React from 'react';
@@ -11,7 +13,6 @@ import "./components/TechBadge.css"
 
 import { Project, Projects } from './assets/projects';
 
-import "./home.css"
 import { IntroHTML } from './optimized/intro';
 
 const YEAR = new Date().getFullYear()
