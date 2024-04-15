@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import SimplexNoise from 'simplex-noise'
 import "./Background.css"
-import HighPGlsl from "../glsl/HighPrecisionMath"
+import HighPGlsl from "../../../src/glsl/HighPrecisionMath"
 
 const simplex = new SimplexNoise(Math.random)
 

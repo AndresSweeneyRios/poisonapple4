@@ -2,8 +2,8 @@ import "./Experience.css"
 
 import React from "react"
 import SVG from "react-inlinesvg"
-import { IconLink } from "../components/IconLink"
-import { TechBadge, Technologies } from "../components/TechBadge"
+import { IconLink } from "./IconLink"
+import { TechBadge, Technologies } from "./TechBadge"
 
 import Amihan from "../assets/projects/amihan.svg"
 import Rakegg from "../assets/projects/rakegg.svg"
