@@ -1,0 +1,67 @@
+.home {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  max-width: 100em;
+}
+
+.home .intro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1em;
+}
+
+.home .intro .title {
+  font-size: 2.3em;
+}
+
+.home .intro .bio {
+  max-width: 35em;
+}
+
+.home .intro .bio > span {
+  font-size: 1.2em;
+  color: rgb(185, 185, 185);
+}
+
+.home .intro .technologies {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5em;
+  margin-top: 1.5em;
+  max-width: 68em;
+}
+
+.home .social {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1em;
+  margin: 1em 0;
+}
+
+.home .contact {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3em;
+}
+
+.home .social a {
+  font-size: 2em;
+}
+
+.home footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1em;
+  margin-top: 2em;
+  color: rgb(138, 138, 138);
+}
