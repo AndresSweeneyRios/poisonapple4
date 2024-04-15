@@ -8,22 +8,30 @@ import "./home.css"
 
 const YEAR = new Date().getFullYear()
 
-const ProjectBackground: React.FC<{project: Project}> = ({ project }) => {
-  if (/webm|mp4|mov/.test(project.sourceSmall)) {
+const ProjectBackground: React.FC<{
+  project: Project,
+  hq?: boolean
+  key: string
+}> = ({ project, hq, key }) => {
+  const source = hq ? project.source : project.sourceSmall
+
+  if (/webm|mp4|mov/.test(source)) {
     return (
-      <video className='background' aria-label={project.title} autoPlay loop muted playsInline>
-        <source src={project.sourceSmall} type="video/webm" />
+      <video draggable={false} key={key} className='background' aria-label={project.title} autoPlay loop muted playsInline>
+        <source src={source} type="video/webm" />
         Your browser does not support the video tag.
       </video>
     )
   }
 
   return (
-    <img className='background' src={project.sourceSmall} alt={project.title} />
+    <img draggable={false} key={key} className='background' src={source} alt={project.title} />
   )
 } 
 
 export const Home: React.FC = () => {
+  const [selectedProject, setSelectedProject] = React.useState<Project | null>(null)
+  
   return (
     <div className="home">
       <div className="intro">
@@ -59,18 +67,32 @@ export const Home: React.FC = () => {
       </div>
 
       <div className="projects">
-        <h2>Projects</h2>
+        <h1>Projects</h1>
         <div className="project-list">
           {Projects.map((project, index) => (
-            <div key={index} className="project">
-              <ProjectBackground project={project} />
-              <div>
+            <div key={index} className="project" onClick={() => {
+              setSelectedProject(project)
+            }}>
+              <ProjectBackground project={project} key={project.title + index} />
+              {/* <div>
                 <h3>{project.title}</h3>
                 <p>{project.description}</p>
-              </div>
+              </div> */}
             </div>
           ))}
         </div>
+
+        {selectedProject && (
+          <div className="project-details">
+            <ProjectBackground project={selectedProject} hq={true} key={selectedProject.title} />
+            <ProjectBackground project={selectedProject} hq={true} key={selectedProject.title + 'bg'} />
+            <div className='content'>
+              <h3>{selectedProject.title}</h3>
+              <p>{selectedProject.description}</p>
+            </div>
+            <button onClick={() => setSelectedProject(null)}><span>×</span></button>
+          </div>
+        )}
       </div>
 
       <footer>

@@ -4,30 +4,34 @@ import AltXSmall from "./altx-small.webm"
 import EverseedAvatarCustomizer from "./avatar-customizer.webp"
 import EverseedAvatarCustomizerSmall from "./avatar-customizer-small.webp"
 
-import Bitt from "./bitt.webp"
+// import Bitt from "./bitt.webp"
 
 import CorgiStack from "./corgi-stack.png"
 
 import ElixirSale from "./elixir-sale.webp"
 import ElixirSaleSmall from "./elixir-sale-small.webp"
 
-import Euphrosyne from "./euphrosyne.png"
+import Euphrosyne from "./euphrosyne.webp"
+import EuphrosyneSmall from "./euphrosyne_small.webp"
 
 import Everfall from "./everfall.webp"
 import EverfallSmall from "./everfall-small.webp"
 
-import EverseedIngame from "./everseed_ingame.png"
+import EverseedIngame from "./everseed_ingame.webp"
+import EverseedIngameSmall from "./everseed_ingame_small.webp"
 
-import EverseedTitle from "./everseed_title.png"
+// import EverseedTitle from "./everseed_title.png"
 
-import EverseedWebsite from "./everseed_website.png"
+import EverseedWebsite from "./everseed_website.webp"
+import EverseedWebsiteSmall from "./everseed_website_small.webp"
 
 import FirefightSmall from "./firefight-small.webp"
 import Firefight from "./firefight.webp"
 
 import Kismet from "./kismet.webp"
 
-import Mudgolt from "./mudgolt.png"
+import Mudgolt from "./mudgolt.webp"
+import MudgoltSmall from "./mudgolt_small.webp"
 
 import Rakegg from "./rakegg.webm"
 import RakeggSmall from "./rakegg-small.webm"
@@ -49,12 +53,16 @@ export interface Project {
 
 export const Projects: Project[] = [
   {
-    title: "AltX",
-    description: `A set of tools used in automating the user’s web browser. I joined an existing team 
-    to improve workflows, refactor code from previous frontend developers, and create 
-    new content utilizing SVG animations.`,
-    source: AltX,
-    sourceSmall: AltXSmall,
+    title: "Corgi Stack 3D",
+    description: "Sequel to my entry for the Corgsmas game jam, Corgi Stack 3D is a reimagined puzzle-platformer which uses cute dogs as moving platforms.",
+    source: CorgiStack,
+    sourceSmall: CorgiStack,
+  },
+  {
+    title: "Euphrosyne Collective",
+    description: "Sacramento community website for EDM and Punk events.",
+    source: Euphrosyne,
+    sourceSmall: EuphrosyneSmall,
   },
   {
     title: "Avatar Customizer",
@@ -63,31 +71,6 @@ export const Projects: Project[] = [
     the core game.`,
     source: EverseedAvatarCustomizer,
     sourceSmall: EverseedAvatarCustomizerSmall,
-  },
-  {
-    title: "Bitt",
-    description: "Bitt is an extremely lightweight (~5kb) zero dependency reactive JavaScript framework.",
-    source: Bitt,
-    sourceSmall: Bitt,
-  },
-  {
-    title: "Corgi Stack 3D",
-    description: "Sequel to my entry for the Corgsmas game jam, Corgi Stack 3D is a reimagined puzzle-platformer which uses cute dogs as moving platforms.",
-    source: CorgiStack,
-    sourceSmall: CorgiStack,
-  },
-  {
-    title: "Elixir Sale",
-    description: `Digital shop for Everseed where you could purchase what was known as an elixir. This 
-    would be consumed by the avatar creator when minting your avatar.`,
-    source: ElixirSale,
-    sourceSmall: ElixirSaleSmall,
-  },
-  {
-    title: "Euphrosyne Collective",
-    description: "Sacramento community website for EDM and Punk events.",
-    source: Euphrosyne,
-    sourceSmall: Euphrosyne,
   },
   {
     title: "Everfall",
@@ -99,43 +82,19 @@ export const Projects: Project[] = [
     title: "Everseed",
     description: "Strategic tower defense game that I worked extensively on.",
     source: EverseedIngame,
-    sourceSmall: EverseedIngame,
+    sourceSmall: EverseedIngameSmall,
   },
-  {
-    title: "Everseed Title",
-    description: "Title screen for Everseed.",
-    source: EverseedTitle,
-    sourceSmall: EverseedTitle,
-  },
+  // {
+  //   title: "Everseed Title",
+  //   description: "Title screen for Everseed.",
+  //   source: EverseedTitle,
+  //   sourceSmall: EverseedTitle,
+  // },
   {
     title: "Everseed Website",
     description: "Landing page for Everseed.",
     source: EverseedWebsite,
-    sourceSmall: EverseedWebsite,
-  },
-  {
-    title: "Firefight Launcher",
-    description: "Custom Minecraft launcher written in in Vue.js for Firefight, an all-encompassing minecraft mod introducing gunplay.",
-    source: Firefight,
-    sourceSmall: FirefightSmall,
-  },
-  {
-    title: "Kismet",
-    description: "An unannounced surreal horror project.",
-    source: Kismet,
-    sourceSmall: Kismet,
-  },
-  {
-    title: "MUDGOLT",
-    description: "Online multiplayer MUD client with user generated content.",
-    source: Mudgolt,
-    sourceSmall: Mudgolt,
-  },
-  {
-    title: "Rake.gg",
-    description: "I worked on this online crypto casino as a full-stack developer. I was responsible for interfacing with APIs such as Infura and BlockCypher for managing funds, integrating it with the frontend, and creating 3D visuals for the minigames.",
-    source: Rakegg,
-    sourceSmall: RakeggSmall,
+    sourceSmall: EverseedWebsiteSmall,
   },
   {
     title: "SnickSnack",
@@ -144,16 +103,61 @@ export const Projects: Project[] = [
     sourceSmall: SnicksnackOverworldSmall,
   },
   {
-    title: "Stardust",
-    description: "A publisher toolset in an Electron client using Stardust's blockchain technologies.",
-    source: Stardust,
-    sourceSmall: StardustSmall,
+    title: "Elixir Sale",
+    description: `Digital shop for Everseed where you could purchase what was known as an elixir. This 
+    would be consumed by the avatar creator when minting your avatar.`,
+    source: ElixirSale,
+    sourceSmall: ElixirSaleSmall,
+  },
+  {
+    title: "Kismet",
+    description: "A surreal horror project.",
+    source: Kismet,
+    sourceSmall: Kismet,
   },
   {
     title: "YaaiiA",
     description: "Short for \"Yet another alien invasion in Atlanta\", this was an entry for the Dreamhack Atlanta 2018 game jam, developed in Unity.",
     source: YaaiiA,
     sourceSmall: YaaiiA,
+  },
+  {
+    title: "MUDGOLT",
+    description: "Online multiplayer MUD client with user generated content.",
+    source: Mudgolt,
+    sourceSmall: MudgoltSmall,
+  },
+  {
+    title: "AltX",
+    description: `A set of tools used in automating the user’s web browser. I joined an existing team 
+    to improve workflows, refactor code from previous frontend developers, and create 
+    new content utilizing SVG animations.`,
+    source: AltX,
+    sourceSmall: AltXSmall,
+  },
+  // {
+  //   title: "Bitt",
+  //   description: "Bitt is an extremely lightweight (~5kb) zero dependency reactive JavaScript framework.",
+  //   source: Bitt,
+  //   sourceSmall: Bitt,
+  // },
+  {
+    title: "Firefight Launcher",
+    description: "Custom Minecraft launcher written in in Vue.js for Firefight, an all-encompassing minecraft mod introducing gunplay.",
+    source: Firefight,
+    sourceSmall: FirefightSmall,
+  },
+  {
+    title: "Rake.gg",
+    description: "I worked on this online crypto casino as a full-stack developer. I was responsible for interfacing with APIs such as Infura and BlockCypher for managing funds, integrating it with the frontend, and creating 3D visuals for the minigames.",
+    source: Rakegg,
+    sourceSmall: RakeggSmall,
+  },
+  {
+    title: "Stardust",
+    description: "A publisher toolset in an Electron client using Stardust's blockchain technologies.",
+    source: Stardust,
+    sourceSmall: StardustSmall,
   },
 ]
 
