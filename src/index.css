@@ -4,6 +4,8 @@
   padding: 0;
   font-family: 'Atkinson Hyperlegible', sans-serif;
   font-weight: 400;
+  scrollbar-width: thin;
+  scrollbar-color: white black;
 }
 
 :root {
