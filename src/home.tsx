@@ -2,10 +2,26 @@ import React from 'react';
 import { Technologies } from './assets/technologies';
 import { TechBadge } from './components/TechBadge';
 import { IconLink } from './components/IconLink';
+import { Project, Projects } from './assets/projects';
 
 import "./home.css"
 
 const YEAR = new Date().getFullYear()
+
+const ProjectBackground: React.FC<{project: Project}> = ({ project }) => {
+  if (/webm|mp4|mov/.test(project.sourceSmall)) {
+    return (
+      <video className='background' aria-label={project.title} autoPlay loop muted playsInline>
+        <source src={project.sourceSmall} type="video/webm" />
+        Your browser does not support the video tag.
+      </video>
+    )
+  }
+
+  return (
+    <img className='background' src={project.sourceSmall} alt={project.title} />
+  )
+} 
 
 export const Home: React.FC = () => {
   return (
@@ -38,6 +54,21 @@ export const Home: React.FC = () => {
         <div className='technologies'>
           {Technologies.map((technology, index) => (
             <TechBadge key={index} {...technology} />
+          ))}
+        </div>
+      </div>
+
+      <div className="projects">
+        <h2>Projects</h2>
+        <div className="project-list">
+          {Projects.map((project, index) => (
+            <div key={index} className="project">
+              <ProjectBackground project={project} />
+              <div>
+                <h3>{project.title}</h3>
+                <p>{project.description}</p>
+              </div>
+            </div>
           ))}
         </div>
       </div>

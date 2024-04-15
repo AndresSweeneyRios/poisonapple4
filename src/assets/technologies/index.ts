@@ -43,6 +43,7 @@ import Phonegap from './phonegap.svg'
 import Photoshop from './photoshop.svg'
 import PixiJS from './pixijs.svg'
 // import PostCSS from './postcss.svg'
+import PostgreSQL from './postgresql.svg'
 import PWA from './pwa.svg'
 import React from './react.svg'
 import SASS from './sass.svg'
@@ -109,6 +110,7 @@ export const Technologies: Technology[] = [
   { name: 'Photoshop', icon: Photoshop },
   { name: 'PixiJS', icon: PixiJS },
   // { name: 'PostCSS', icon: PostCSS },
+  { name: 'PostgreSQL', icon: PostgreSQL },
   { name: 'PWA', icon: PWA },
   { name: 'React', icon: React },
   { name: 'SASS', icon: SASS },
