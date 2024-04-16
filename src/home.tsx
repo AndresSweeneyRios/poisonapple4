@@ -118,9 +118,10 @@ export const Home: React.FC = () => {
             <ProjectBackground project={selectedProject} hq={true} _key={selectedProject.title + 'bg'} />
             <div className='content'>
               <h3>{selectedProject.title}</h3>
-              <p>{selectedProject.description}</p>
+              {selectedProject.description ? <p>{selectedProject.description}</p> : null}
+              <button onClick={() => setSelectedProject(null)}><span>← BACK</span></button>
             </div>
-            <button onClick={() => setSelectedProject(null)}><span>×</span></button>
+            {/* <button onClick={() => setSelectedProject(null)}><span>×</span></button> */}
           </div>
         )}
       </div>

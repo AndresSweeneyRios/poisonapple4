@@ -208,18 +208,12 @@
 
 .project-details .content h3 {
   font-size: 2em;
-  background-color: rgba(25, 24, 31, 0.772);
-  padding: 0.4em;
-  backdrop-filter: blur(5px);
 }
 
 .project-details .content p {
   font-size: 1.3em;
   max-width: 30em;
   color: rgb(204, 204, 204);
-  background-color: rgba(25, 24, 31, 0.772);
-  padding: 0.4em;
-  backdrop-filter: blur(5px);
 }
 
 @media (max-aspect-ratio: 1/1) {
@@ -229,6 +223,33 @@
 }
 
 .project-details button {
+  border: none;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.project-details button span {
+  font-size: 1em;
+  letter-spacing: 0.06em;
+}
+
+.project-details button:hover {
+  border-color: white;
+  background-color: white;
+  color: black;
+}
+
+.project-details button, .project-details .content h3, .project-details .content p {
+  background-color: rgba(36, 36, 36, 0.7);
+  border: 1px solid rgba(60, 60, 60, 0.563);
+  padding: 0.8rem;
+  backdrop-filter: blur(5px);
+}
+
+/* .project-details button {
   position: absolute;
   top: 3rem;
   right: 3rem;
@@ -255,4 +276,4 @@
   border-color: white;
   background-color: white;
   color: black;
-}
+} */

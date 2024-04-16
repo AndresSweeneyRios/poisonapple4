@@ -92,13 +92,13 @@ export const Projects: Project[] = [
     // },
     {
       title: "Everseed Website",
-      description: "Landing page for Everseed.",
+      description: "",
       source: EverseedWebsite,
       sourceSmall: EverseedWebsiteSmall,
     },
     {
       title: "SnickSnack",
-      description: "social MMO with various minigames, shops, outfits, and a snowglobe builder. I joined the team as a UI developer, later working on the backend and our various minigames which were built in a mixture of web technologies and Unity. The alpha is still playable online.",
+      description: "Social MMO with various minigames, shops, outfits, and a snowglobe builder. I joined the team as a UI developer, later working on the backend and our various minigames which were built in a mixture of web technologies and Unity. The alpha is still playable online.",
       source: SnicksnackOverworld,
     sourceSmall: SnicksnackOverworldSmall,
   },
