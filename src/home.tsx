@@ -3,6 +3,7 @@ import "./home.css"
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-constant-condition */
 import React from 'react';
+import SVG from 'react-inlinesvg';
 
 // import { Technologies } from './assets/technologies';
 // import { TechBadge } from './components/TechBadge';
@@ -14,6 +15,8 @@ import "./components/TechBadge.css"
 import { Project, Projects } from './assets/projects';
 
 import { IntroHTML } from './optimized/intro';
+
+import PrideSVG from "./assets/pride.svg"
 
 const YEAR = new Date().getFullYear()
 
@@ -121,6 +124,12 @@ export const Home: React.FC = () => {
           </div>
         )}
       </div>
+
+      <SVG style={{
+        width: '10rem',
+        maxWidth: '100%',
+        marginTop: '9rem',
+      }} title="Progressive pride flag" src={PrideSVG} />
 
       <footer>
         <p>

@@ -65,6 +65,12 @@ export const Projects: Project[] = [
     sourceSmall: EuphrosyneSmall,
   },
   {
+    title: "Everseed",
+    description: "Strategic tower defense game that I worked extensively on.",
+    source: EverseedIngame,
+    sourceSmall: EverseedIngameSmall,
+  },
+  {
     title: "Avatar Customizer",
     description: `Character customizer for Everseed 
     that required an elixir to mint a new avatar that would be attached to your account for 
@@ -78,29 +84,29 @@ export const Projects: Project[] = [
     source: Everfall,
     sourceSmall: EverfallSmall,
   },
-  {
-    title: "Everseed",
-    description: "Strategic tower defense game that I worked extensively on.",
-    source: EverseedIngame,
-    sourceSmall: EverseedIngameSmall,
-  },
   // {
-  //   title: "Everseed Title",
-  //   description: "Title screen for Everseed.",
-  //   source: EverseedTitle,
-  //   sourceSmall: EverseedTitle,
-  // },
-  {
-    title: "Everseed Website",
-    description: "Landing page for Everseed.",
-    source: EverseedWebsite,
-    sourceSmall: EverseedWebsiteSmall,
+    //   title: "Everseed Title",
+    //   description: "Title screen for Everseed.",
+    //   source: EverseedTitle,
+    //   sourceSmall: EverseedTitle,
+    // },
+    {
+      title: "Everseed Website",
+      description: "Landing page for Everseed.",
+      source: EverseedWebsite,
+      sourceSmall: EverseedWebsiteSmall,
+    },
+    {
+      title: "SnickSnack",
+      description: "social MMO with various minigames, shops, outfits, and a snowglobe builder. I joined the team as a UI developer, later working on the backend and our various minigames which were built in a mixture of web technologies and Unity. The alpha is still playable online.",
+      source: SnicksnackOverworld,
+    sourceSmall: SnicksnackOverworldSmall,
   },
   {
-    title: "SnickSnack",
-    description: "social MMO with various minigames, shops, outfits, and a snowglobe builder. I joined the team as a UI developer, later working on the backend and our various minigames which were built in a mixture of web technologies and Unity. The alpha is still playable online.",
-    source: SnicksnackOverworld,
-    sourceSmall: SnicksnackOverworldSmall,
+    title: "Firefight Launcher",
+    description: "Custom Minecraft launcher written in in Vue.js for Firefight, an all-encompassing minecraft mod introducing gunplay.",
+    source: Firefight,
+    sourceSmall: FirefightSmall,
   },
   {
     title: "Elixir Sale",
@@ -141,12 +147,6 @@ export const Projects: Project[] = [
   //   source: Bitt,
   //   sourceSmall: Bitt,
   // },
-  {
-    title: "Firefight Launcher",
-    description: "Custom Minecraft launcher written in in Vue.js for Firefight, an all-encompassing minecraft mod introducing gunplay.",
-    source: Firefight,
-    sourceSmall: FirefightSmall,
-  },
   {
     title: "Rake.gg",
     description: "I worked on this online crypto casino as a full-stack developer. I was responsible for interfacing with APIs such as Infura and BlockCypher for managing funds, integrating it with the frontend, and creating 3D visuals for the minigames.",
