@@ -142,7 +142,6 @@
   left: 0;
   z-index: 100;
   /*background-color: rgba(0, 0, 0, 0.741);*/
-  backdrop-filter: blur(5px);
 }
 
 /* linear gradient from bottom left corner to top right */
@@ -243,10 +242,9 @@
 }
 
 .project-details button, .project-details .content h3, .project-details .content p {
-  background-color: rgba(36, 36, 36, 0.7);
+  background-color: rgba(29, 29, 29, 0.814);
   border: 1px solid rgba(60, 60, 60, 0.563);
   padding: 0.8rem;
-  backdrop-filter: blur(5px);
 }
 
 /* .project-details button {
