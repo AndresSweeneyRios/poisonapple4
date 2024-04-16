@@ -24,6 +24,12 @@ const smallBackgroundsToPreload = [] as Promise<void>[]
 
 for (const project of Projects) {
   smallBackgroundsToPreload.push(new Promise((resolve) => {
+    if (/webm|mp4|mov/.test(project.source)) {
+      resolve()
+
+      return
+    }
+
     const img = new Image()
     img.src = project.sourceSmall
 
@@ -32,6 +38,29 @@ for (const project of Projects) {
     }
   }))
 }
+
+Promise.all(smallBackgroundsToPreload).then(() => {
+  // preload the rest 
+
+  const backgroundsToPreload = [] as Promise<void>[]
+
+  for (const project of Projects) {
+    backgroundsToPreload.push(new Promise((resolve) => {
+      if (/webm|mp4|mov/.test(project.source)) {
+        resolve()
+
+        return
+      }
+
+      const img = new Image()
+      img.src = project.source
+
+      img.onload = () => {
+        resolve()
+      }
+    }))
+  }
+})
 
 const ProjectBackground: React.FC<{
   project: Project,
