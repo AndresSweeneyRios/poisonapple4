@@ -47,7 +47,7 @@ export const IconLink: React.FC<{
 
   return (
     <a {...restProps} className="icon-link" title={title || type} style={{ textTransform: "none" }}>
-      <SVG src={LinkType[type]} />
+      <SVG src={LinkType[type]} aria-hidden={true} />
 
       {title ?? type}
     </a>

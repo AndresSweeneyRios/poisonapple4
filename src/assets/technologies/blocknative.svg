@@ -1,76 +1,18 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-  
-  
    viewBox="0 0 26.075901 37.488238"
-   version="1.1"
-   id="svg8"
-   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
-   sodipodi:docname="blocknative.svg">
-  <defs
-     id="defs2" />
-  <sodipodi:namedview
-     id="base"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:pageopacity="0.0"
-     inkscape:pageshadow="2"
-     inkscape:zoom="1.4"
-     inkscape:cx="104.49942"
-     inkscape:cy="-69.357574"
-     inkscape:document-units="mm"
-     inkscape:current-layer="layer1"
-     showgrid="false"
-     inkscape:window-width="1920"
-     inkscape:window-height="1027"
-     inkscape:window-x="-8"
-     inkscape:window-y="-8"
-     inkscape:window-maximized="1" />
-  <metadata
-     id="metadata5">
-    <rdf:RDF>
-      <cc:Work
-         rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
-      </cc:Work>
-    </rdf:RDF>
-  </metadata>
-  <g
-     inkscape:label="Layer 1"
-     inkscape:groupmode="layer"
-     id="layer1"
-     transform="translate(-410.71229,-279.26887)">
+   version="1.1">
+  <g transform="translate(-410.71229,-279.26887)">
     <g
-       id="Assets"
        transform="matrix(0.26458333,0,0,0.26458333,410.45395,279.16641)"
        style="fill:none;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round">
-      <g
-         transform="translate(2,1)"
-         id="Group-7">
-        <g
-           id="line-logo"
-           style="stroke:white;stroke-width:10">
+      <g transform="translate(2,1)">
+        <g style="stroke:white;stroke-width:10">
           <path
-             id="Stroke-1"
              d="M 1.4902102,27.796479 47.343884,1.1569898 c 0.621175,-0.36088233 1.388182,-0.36088578 2.00936,-9.1e-6 L 71.273495,13.891669 c 0.619953,0.360165 0.999683,1.024631 0.995291,1.741598 L 72.103663,42.58522 95.035662,55.907688 c 0.616168,0.357966 0.995328,1.016742 0.995328,1.729345 v 53.301617 c 0,0.7126 -0.379165,1.37138 -0.995339,1.72935 l -45.85186,26.63748 c -0.622131,0.36143 -1.39045,0.36083 -2.012016,-0.002 L 1.4875432,112.6685 C 0.87288916,112.31014 0.49489796,111.65221 0.49489796,110.94072 V 56.484936 29.525815 c 0,-0.712596 0.3791532,-1.371367 0.99531224,-1.729336 z"
-             inkscape:connector-curvature="0" />
+          />
           <path
-             id="Stroke-3"
              d="M 24.24713,125.88711 V 98.086681 L 0.49499694,84.287248 47.520154,111.40796 c 0.621336,0.35834 1.386988,0.35652 2.006612,-0.005 L 96.031089,84.287248 72.275987,98.187957 v -26.64731 c 0,-0.713681 -0.3803,-1.373285 -0.997941,-1.73086 L 48.263538,56.48583 72.103762,42.585121 25.405907,69.509089 c -0.609968,0.351681 -1.360552,0.354079 -1.972754,0.0063 L 0.49499694,56.484837"
-             inkscape:connector-curvature="0" />
+          />
         </g>
       </g>
     </g>

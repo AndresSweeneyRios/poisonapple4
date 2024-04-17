@@ -84,14 +84,12 @@ const ProjectBackground: React.FC<{
 } 
 
 // const Intro: React.FC = () => (
-//   <div className="intro">
+//   <section className="intro">
 //     <h1 className="title">Hi, I'm <span>Andres Sweeney-Rios</span></h1>
     
 //     <p className="bio">
 //       <span>
-//         As a California-based software engineer, I specialize in integrating game development 
-//         with web technologies to build user-first, accessible digital experiences. I lead 
-//         projects from concept to launch, focusing on inclusivity and engagement.
+//         I'm a software engineer from California with a focus on front-end web development and game programming. My expertise spans several disciplines, including back-end engineering, tools development, UI/UX design, DevOps, graphic design, and project management.
 //       </span>
 //     </p>
 
@@ -114,7 +112,7 @@ const ProjectBackground: React.FC<{
 //         <TechBadge key={index} {...technology} />
 //       ))}
 //     </div>
-//   </div>
+//   </section>
 // )
 
 export const Home: React.FC = () => {
@@ -123,20 +121,20 @@ export const Home: React.FC = () => {
   return (
     <div className="home">
       {/* <Intro /> */}
-      <div className="intro" dangerouslySetInnerHTML={{ __html: IntroHTML }} />
+      <div dangerouslySetInnerHTML={{ __html: IntroHTML }} />
 
-      <div className="projects">
-        <h1>Projects</h1>
+      <section className="projects">
+        <h2>Projects</h2>
         <div className="project-list">
           {Projects.map((project, index) => (
             <div key={index} className="project" onClick={() => {
               setSelectedProject(project)
+              document.body.style.overflowY = 'hidden'
             }}>
               <ProjectBackground project={project} _key={project.title + index} />
-              {/* <div>
+              <div>
                 <h3>{project.title}</h3>
-                <p>{project.description}</p>
-              </div> */}
+              </div>
             </div>
           ))}
         </div>
@@ -148,12 +146,15 @@ export const Home: React.FC = () => {
             <div className='content'>
               <h3>{selectedProject.title}</h3>
               {selectedProject.description ? <p>{selectedProject.description}</p> : null}
-              <button onClick={() => setSelectedProject(null)}><span>← BACK</span></button>
+              <button onClick={() => {
+                setSelectedProject(null)
+                document.body.style.overflowY = 'auto'
+              }}><span>← BACK</span></button>
             </div>
             {/* <button onClick={() => setSelectedProject(null)}><span>×</span></button> */}
           </div>
         )}
-      </div>
+      </section>
 
       <SVG style={{
         width: '10rem',
