@@ -89,7 +89,7 @@ const ProjectBackground: React.FC<{
     
 //     <p className="bio">
 //       <span>
-//         I'm a software engineer from California with a focus on front-end web development and game programming. My expertise spans several disciplines, including back-end engineering, tools development, UI/UX design, DevOps, graphic design, and project management.
+//       I'm a California-based software engineer specializing in front-end web development and gameplay programming. I also have a strong background in back-end engineering, tools development, UI/UX design, DevOps, graphic design, and project management.
 //       </span>
 //     </p>
 
