@@ -96,8 +96,8 @@
 .experience-item .bar::after {
   content: '';
   position: absolute;
-  width: 8px;
-  height: 8px;
+  width: 0.5em;
+  height: 0.5em;
   background-color: white;
   top: calc(3.2rem / 2 - 4px)
 }
