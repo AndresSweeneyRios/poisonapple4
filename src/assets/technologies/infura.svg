@@ -56,7 +56,7 @@
     <path
        id="path1254"
        d="m 521.7598,311.9587 v 3.78354 l 9.04875,-0.92604 h 3.33375 v 6.13833 l -5.60917,1.71979 -7.62,1.82563 1.13771,3.70416 7.3025,-2.80458 4.81542,-1.48167 v 10.05417 h -3.33375 l -9.04875,-0.92604 v 3.78354 h 27.6225 v -3.78354 l -9.04875,0.92604 h -3.38667 v -10.05417 l 4.78896,1.45521 7.32896,2.80458 1.13771,-3.70416 -7.59354,-1.82563 -5.63563,-1.71979 v -6.13833 h 3.33375 l 9.04875,0.92604 v -3.78354 z"
-       class="st0"
+       class="infura-st0"
        inkscape:connector-curvature="0"
        style="fill:#ff6b4a;stroke-width:0.26458332"
        sodipodi:nodetypes="ccccccccccccccccccccccccccccc" />
@@ -64,6 +64,6 @@
   <style
      id="style1252"
      type="text/css">
-	.st0{fill:#FF6B4A;}
+	.infura-st0{fill:#FF6B4A;}
 </style>
 </svg>

@@ -159,3 +159,7 @@ p a:hover {
   flex-direction: column;
   gap: 0.5em;
 }
+
+:root body svg {
+  overflow: visible;
+}
