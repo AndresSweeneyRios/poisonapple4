@@ -5,7 +5,7 @@ import { Background } from "./components/Background"
 import Apple from "./assets/lowpoly_apple_transparent.webp"
 import SVG from "react-inlinesvg"
 import Amihan from "../assets/projects/amihan.svg"
-import { AestellExperienceBox, AmihanExperienceBox, BareshelvesExperienceBox as FwdslashExperienceBox } from "./components/Experience"
+import { AestellExperienceBox, AeternumExperienceBox, AmihanExperienceBox, FwdslashExperienceBox, StardustExperienceBox } from "./components/Experience"
 
 const App: React.FC = () => {
   return (
@@ -16,7 +16,7 @@ const App: React.FC = () => {
         <section id="intro">
           <img src={Apple} />
           <div>
-            <h1>Hey, I'm Andres</h1>
+            <h1>Hey, I'm Andres Sweeney-Rios</h1>
             <p className="text-dark">
               I'm a generalist software engineer from California. I work mostly 
               in web development (fullstack), gameplay engineering, and realtime networking, 
@@ -26,11 +26,15 @@ const App: React.FC = () => {
           </div>
         </section>
         
-        <section className="experience">
+        <section className="experience-container">
           <h1>Experience</h1>
-          <AmihanExperienceBox />
-          <FwdslashExperienceBox />
-          <AestellExperienceBox />
+          <div className="experience">
+            <AmihanExperienceBox />
+            <FwdslashExperienceBox />
+            <AestellExperienceBox />
+            <AeternumExperienceBox />
+            <StardustExperienceBox />
+          </div>
         </section>
       </main>
     </>

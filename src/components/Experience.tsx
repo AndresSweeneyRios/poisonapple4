@@ -8,6 +8,8 @@ import { TechBadge, Technologies } from "../components/TechBadge"
 import Amihan from "../assets/projects/amihan.svg"
 import Rakegg from "../assets/projects/rakegg.svg"
 import Aestell from "../assets/projects/aestell.svg"
+import Aeternum from "../assets/projects/firefight.svg"
+import Stardust from "../assets/projects/stardust.svg"
 
 import SnicksnackKeepsies from "../assets/screenshots/snicksnack-keepsies.png"
 import SnicksnackOverworld from "../assets/screenshots/snicksnack-overworld.png"
@@ -22,6 +24,8 @@ import AvatarCustomizer from "../assets/screenshots/avatar-customizer.png"
 import RakeggScreenshot from "../assets/screenshots/rakegg.gif"
 import Altx from "../assets/screenshots/altx.gif"
 import Emailsgg from "../assets/screenshots/emails_gg.png"
+import FirefightScreenshot from "../assets/screenshots/firefight.png"
+import StardustScreenshot from "../assets/screenshots/stardust.gif"
 
 export const Screenshot: React.FC<{
   url: string
@@ -100,9 +104,7 @@ export const AmihanExperienceBox: React.FC = (props) => {
           playable online.
         </>}
 
-        links={<>
-          <IconLink type={"Website"} href="https://snicksnack.club" title="Online Alpha" />
-        </>}
+        links={<></>}
 
         technologies={[
           "Phaser",
@@ -167,7 +169,7 @@ export const AmihanExperienceBox: React.FC = (props) => {
         role="Gameplay, Tools Development, UI Development, Frontend Web"
         
         description={<>
-          We transitioned to a new roguelike tower defense prototype <b>Everseed</b>, 
+          We pivoted to a new roguelike tower defense prototype <b>Everseed</b>, 
           where you grow plants to defend against enemy waves. My role on this project 
           has been primarily in architecture, gameplay, and UI, with a focus on building 
           tooling for the design team. We launched a closed playtest in May 2022, and the 
@@ -181,7 +183,7 @@ export const AmihanExperienceBox: React.FC = (props) => {
         links={<>
           <IconLink type="Youtube" title="Trailer" href="https://www.youtube.com/watch?v=mWuzyEHMxpg" />
           <IconLink type="Twitter" href="https://twitter.com/playeverseed" />
-          <IconLink type="Website" title="Everseed Website" href="https://everseed.com" />
+          {/* <IconLink type="Website" title="Everseed Website" href="https://everseed.com" /> */}
         </>}
 
         technologies={[
@@ -215,10 +217,7 @@ export const AmihanExperienceBox: React.FC = (props) => {
           of this website is still online and functional.
         </>}
 
-        links={<>
-          <IconLink type="Website" title="Post-Sale Elixir Website" href="https://elixir.everseed.com" />
-          <IconLink type="Website" title="Avatar Creator" href="https://avatars.everseed.com" />
-        </>}
+        links={<></>}
 
         technologies={[
           "Phantom",
@@ -238,7 +237,7 @@ export const AmihanExperienceBox: React.FC = (props) => {
   )
 }
 
-export const BareshelvesExperienceBox: React.FC = (props) => {
+export const FwdslashExperienceBox: React.FC = (props) => {
   return (
     <div className="experience-box">
       <h1>
@@ -366,5 +365,87 @@ export const AestellExperienceBox: React.FC = (props) => {
         </>}
       />
     </div>  
+  )
+}
+
+export const AeternumExperienceBox: React.FC = () => {
+  return (
+    <div className="experience-box">
+      <h1>
+        <SVG src={Aeternum} />
+
+        <span>
+          Aeternum Industries
+        </span>
+
+        <span className="date text-dark">
+          (June 2019 — Oct 2019)
+        </span>
+      </h1>
+
+      <ExperienceItem
+        title="Firefight Launcher"
+        role="Frontend"
+
+        description={<>
+          I collaborated with various designers and game/systems engineers to build a desktop launcher for 
+          the Firefight game server, which would launch and configure the user's Minecraft client to load into the game.
+        </>}
+
+        links={<></>}
+        
+        technologies={[
+          "Electron",
+          "Vue",
+          "JavaScript",
+        ]}
+
+        screenshots={<>
+          <Screenshot url={FirefightScreenshot} title="Firefight Launcher" />
+        </>}
+      />
+    </div> 
+  )
+}
+
+export const StardustExperienceBox: React.FC = () => {
+  return (
+    <div className="experience-box">
+      <h1>
+        <SVG src={Stardust} />
+
+        <span>
+          Stardust
+        </span>
+
+        <span className="date text-dark">
+          (Oct 2018 — Nov 2018)
+        </span>
+      </h1>
+
+      <ExperienceItem
+        title="Stardust Publisher Tools"
+        role="Frontend"
+
+        description={<>
+          Desktop client for Stardust publishers to allow posting video game assets to a blockchain 
+          for use in digital marketplaces. I designed the interface and developed the frontend for the app.
+        </>}
+
+        links={<></>}
+        
+        technologies={[
+          "Electron",
+          "Ethereum",
+          "S3",
+          "Vue",
+          "JavaScript",
+        ]}
+
+        screenshots={<>
+          <Screenshot url={StardustScreenshot} title="Stardust Publisher Tools" />
+        </>}
+      />
+    </div> 
   )
 }

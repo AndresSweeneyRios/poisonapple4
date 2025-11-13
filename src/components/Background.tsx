@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react'
-import SimplexNoise from 'simplex-noise'
+import { createNoise2D as SimplexNoise } from 'simplex-noise'
 import "./Background.css"
 
-const simplex = new SimplexNoise(Math.random)
+const simplex = SimplexNoise(Math.random)
 
-const WIDTH = 480
-const HEIGHT = 480
+const WIDTH = 240
+const HEIGHT = WIDTH / (window.innerWidth / window.innerHeight)
 
 const vertexShader = /*glsl*/`
   precision mediump float;
@@ -150,7 +150,7 @@ const generateTexture = () => {
 
   for (let y = 0; y < HEIGHT; y++) {
     for (let x = 0; x < WIDTH; x++) {
-      const pixel = simplex.noise2D(
+      const pixel = simplex(
         (x + ((Math.random() - 0.5) * noiseLevel)) / zoomX, 
         (y + ((Math.random() - 0.5) * noiseLevel)) / zoomY,
       )
@@ -175,7 +175,7 @@ generateTexture()
 
 const init = (gl: WebGLRenderingContext) => {
   gl.canvas.width = WIDTH
-  gl.canvas.height = gl.canvas.width
+  gl.canvas.height = HEIGHT
 
   const program = createProgram(
     gl,
