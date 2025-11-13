@@ -14,16 +14,12 @@
   overflow: hidden;
   position: fixed;
   opacity: 1;
-  background: url("../assets/cracks.png");
-  background-size: 640px;
-  animation: background-scroll 60s linear infinite;
-  /* background: url("../assets/color-bars.png");
-  background-size: cover;
-  background-position: center; */
   z-index: -1;
   transform: scale(1.2);
   filter: saturate(0.5);
   opacity: 0.75;
+  top: 0;
+  left: 0;
 }
 
 #background > canvas {

@@ -97,7 +97,7 @@ const App: React.FC = () => {
             <HealthExperienceBox />
             <KrakenExperienceBox />
             <AmihanExperienceBox />
-            <FwdslashExperienceBox />
+            {/* <FwdslashExperienceBox /> */}
             <AestellExperienceBox />
             <AeternumExperienceBox />
             <StardustExperienceBox />

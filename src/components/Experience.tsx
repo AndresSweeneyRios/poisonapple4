@@ -514,7 +514,9 @@ export const KrakenExperienceBox: React.FC = () => {
           and mentored junior developers to raise code quality across the team.
         </>}
 
-        links={<></>}
+        links={<>
+          <IconLink type="Website" title="Kraken" href="https://kraken.com" />
+        </>}
         
         technologies={[
           "React",
