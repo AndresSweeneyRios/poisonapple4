@@ -43,6 +43,8 @@ import Vuetify from "../assets/technologies/vuetify.svg"
 import Webpack from "../assets/technologies/wpack.svg"
 import Webrtc from "../assets/technologies/webrtc.svg"
 import Websockets from "../assets/technologies/websockets.svg"
+import Sanity from "../assets/technologies/sanity.svg"
+import Tailwind from "../assets/technologies/tailwind.svg"
 
 export const Technologies = {
   "AWS": Aws,
@@ -87,6 +89,8 @@ export const Technologies = {
   Webpack,
   "WebRTC": Webrtc,
   "WebSockets": Websockets,
+  Sanity,
+  Tailwind,
 }
 
 export const TechBadge: React.FC<{

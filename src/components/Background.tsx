@@ -1,357 +1,319 @@
-import React, { useEffect } from 'react'
-import { createNoise2D as SimplexNoise } from 'simplex-noise'
+import React, { useEffect, useRef } from 'react'
+import acid1TextureSrc from '../assets/background/ACID1.webp'
+import acid2TextureSrc from '../assets/background/smpte.png'
 import "./Background.css"
 
-const simplex = SimplexNoise(Math.random)
-
-const WIDTH = 240
-const HEIGHT = WIDTH / (window.innerWidth / window.innerHeight)
-
-const vertexShader = /*glsl*/`
-  precision mediump float;
-  attribute mediump vec2 a_position;
-  uniform mediump vec2 u_resolution;
-  attribute vec2 a_texcoord;
-
-  varying highp vec2 v_texcoord;
-
+const vertexShaderSource = /* glsl */ `
+  attribute vec2 aPosition;
   void main() {
-    vec2 zeroToOne = a_position / u_resolution;
-    vec2 zeroToTwo = zeroToOne * 2.0;
-    vec2 clipSpace = zeroToTwo - 1.0;
-
-    gl_Position = vec4(clipSpace * vec2(1, -1), 0, 1);
-    v_texcoord = a_texcoord;
+    gl_Position = vec4(aPosition, 0.0, 1.0);
   }
 `
 
-const fragmentShader = /*glsl*/`
-  precision mediump float;
-  uniform mediump vec2 u_resolution;
-  uniform sampler2D u_sampler;
-  uniform bool u_displayPass;
+const fragmentShaderSource = /* glsl */ `
+#ifdef GL_ES
+precision highp float;
+#endif
 
-  varying highp vec2 v_texcoord;
+uniform float uTime;
+uniform vec2 uResolution;
+uniform sampler2D acid1Texture;
+uniform sampler2D acid2Texture;
 
-  float getNeighbors(vec2 position, vec2 texel) {
-    float neighbors = 0.0;
+void main() {
+  vec2 uv = gl_FragCoord.xy / uResolution.xy;
+  float aspect = uResolution.x / uResolution.y;
+  vec2 centeredUv = vec2((uv.x - 0.5) * aspect + 0.5, uv.y + 0.5);
 
-    neighbors += texture2D(u_sampler, position + vec2( texel.x, -texel.y)).a;
-    neighbors += texture2D(u_sampler, position + vec2( 0.0,     -texel.y)).a;
-    neighbors += texture2D(u_sampler, position + vec2( texel.x,  0.0)).a;
-    neighbors += texture2D(u_sampler, position + vec2( texel.x,  texel.y)).a;
-    neighbors += texture2D(u_sampler, position + vec2( 0.0,      texel.y)).a;
-    neighbors += texture2D(u_sampler, position + vec2(-texel.x,  texel.y)).a;
-    neighbors += texture2D(u_sampler, position + vec2(-texel.x,  0.0)).a;
-    neighbors += texture2D(u_sampler, position + vec2(-texel.x, -texel.y)).a;
+  float t0 = uTime * 0.002;
+  float t1 = uTime * 0.0005;
+  float negT0 = -t0;
 
-    return floor(neighbors);
-  }
+  vec2 acid3Uv = (centeredUv + vec2(t0, t1)) / 2.0;
+  vec4 acid3 = texture2D(acid1Texture, acid3Uv);
 
-  void main() {
-    vec2 texel = vec2(1.0) / u_resolution;
-    vec2 st = gl_FragCoord.xy * texel;
+  vec2 acid1bUv = vec2(
+    1.0 - (centeredUv.x + negT0) / 4.0,
+    (centeredUv.y + acid3.r * 0.1 + negT0) / 4.0
+  );
+  vec4 acid1b = texture2D(acid1Texture, acid1bUv);
 
-    vec4 cell = texture2D(u_sampler, st);
+  vec2 acid2Uv = vec2(
+    uv.x + acid1b.r * 0.3,
+    1.0 - centeredUv.y / 1.77
+  );
+  vec4 acid2 = texture2D(acid2Texture, acid2Uv);
 
-    if (u_displayPass) {
-      gl_FragColor = cell;
-      return;
-    }
-
-    float neighbors = getNeighbors(st, texel);
-    float neighborNeighbors = getNeighbors(st * 0.5, texel);
-
-    float wasDead = float(cell.a == 0.8);
-    float wasAlive = float(cell.a == 1.0);
-    float isAlive = float(
-      (cell.a == 1.0 && (neighbors == 2.0 || (neighbors > 3.0 && neighbors < 8.0 && neighborNeighbors < 4.0))) ||
-      (cell.a == 0.0 && neighbors == 3.0) ||
-      (cell.a == 0.8 && neighbors == 4.0)
-    );
-
-    float persistence = wasAlive + wasDead;
-
-    gl_FragColor = vec4(
-      (isAlive * 0.4) + (persistence * 0.3),
-      (isAlive * 0.6) + (persistence * 0.1),
-      isAlive + (wasDead * 1.5),
-      isAlive + (wasAlive * 0.8) + (wasDead * 0.5)
-    );
-  }
+  gl_FragColor = acid2;
+}
 `
 
-const createShader = (gl: WebGLRenderingContext, type: number, source: string) => {
-  const shader = gl.createShader(type)!
+const loadImage = (src: string) =>
+  new Promise<HTMLImageElement>((resolve, reject) => {
+    const image = new Image()
+    image.crossOrigin = "anonymous"
+    image.onload = () => resolve(image)
+    image.onerror = () => reject(new Error(`Failed to load texture: ${src}`))
+    image.src = src
+  })
+
+const compileShader = (gl: WebGL2RenderingContext, type: number, source: string) => {
+  const shader = gl.createShader(type)
+
+  if (!shader) {
+    console.error("Failed to create shader")
+    return null
+  }
 
   gl.shaderSource(shader, source)
   gl.compileShader(shader)
 
-  const success = gl.getShaderParameter(shader, gl.COMPILE_STATUS)
+  if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+    console.error("Shader compile error:", gl.getShaderInfoLog(shader))
+    gl.deleteShader(shader)
+    return null
+  }
 
-  if (success) return shader
-
-  console.error(gl.getShaderInfoLog(shader))
-  gl.deleteShader(shader)
+  return shader
 }
 
-const createProgram = (gl: WebGLRenderingContext, vertexShader: WebGLShader, fragmentShader: WebGLShader) => {
-  const program = gl.createProgram()!
+const initNeonFractal = async (canvas: HTMLCanvasElement) => {
+  const gl = canvas.getContext("webgl2")
+
+  if (!gl) {
+    console.error("WebGL2 not supported")
+    return
+  }
+
+  // Match the canvas resolution to its parent to keep the shader crisp.
+  const resize = () => {
+    const parent = canvas.parentElement
+    const width = parent?.clientWidth ?? window.innerWidth
+    const height = parent?.clientHeight ?? window.innerHeight
+
+    if (canvas.width !== width || canvas.height !== height) {
+      canvas.width = width
+      canvas.height = height
+      gl.viewport(0, 0, width, height)
+    }
+  }
+
+  window.addEventListener("resize", resize)
+  resize()
+
+  const vertexShader = compileShader(gl, gl.VERTEX_SHADER, vertexShaderSource)
+  const fragmentShader = compileShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSource)
+
+  if (!vertexShader || !fragmentShader) {
+    window.removeEventListener("resize", resize)
+    return
+  }
+
+  const program = gl.createProgram()
+
+  if (!program) {
+    console.error("Failed to create shader program")
+    window.removeEventListener("resize", resize)
+    gl.deleteShader(vertexShader)
+    gl.deleteShader(fragmentShader)
+    return
+  }
 
   gl.attachShader(program, vertexShader)
   gl.attachShader(program, fragmentShader)
   gl.linkProgram(program)
 
-  const success = gl.getProgramParameter(program, gl.LINK_STATUS)
-
-  if (success) return program
-
-  console.log(gl.getProgramInfoLog(program))
-  gl.deleteProgram(program)
-}
-
-const source = new Uint8Array(WIDTH * HEIGHT * 4)
-
-const createTexture2D = (gl: WebGLRenderingContext, data?: ArrayBufferView | null) => {
-  const texture = gl.createTexture()!
-
-  gl.bindTexture(gl.TEXTURE_2D, texture)
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST)
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST)
-
-  gl.texImage2D(
-    gl.TEXTURE_2D,
-    0,
-    gl.RGBA,
-    WIDTH,
-    HEIGHT,
-    0,
-    gl.RGBA,
-    gl.UNSIGNED_BYTE,
-    data ?? null,
-  )
-
-  return texture
-}
-
-const generateTexture = () => {
-  let i = 0
-
-  const zoomX = (Math.random() * 190) + 10
-  const zoomY = (Math.random() * 190) + 10
-
-  const noiseLevel = Math.random() * 70
-
-  for (let y = 0; y < HEIGHT; y++) {
-    for (let x = 0; x < WIDTH; x++) {
-      const pixel = simplex(
-        (x + ((Math.random() - 0.5) * noiseLevel)) / zoomX, 
-        (y + ((Math.random() - 0.5) * noiseLevel)) / zoomY,
-      )
-      // const pixel = simplex.noise2D(
-      //   x / 40, 
-      //   y / 40,
-      // )
-
-      const value = ((pixel + 1) / 2) < 0.3 ? 255 : 0
-
-      source[i] = 255
-      source[i + 1] = 255
-      source[i + 2] = 255
-      source[i + 3] = value
-
-      i += 4
-    }
-  }
-}
-
-generateTexture()
-
-const init = (gl: WebGLRenderingContext) => {
-  gl.canvas.width = WIDTH
-  gl.canvas.height = HEIGHT
-
-  const program = createProgram(
-    gl,
-    createShader(gl, gl.VERTEX_SHADER, vertexShader)!,
-    createShader(gl, gl.FRAGMENT_SHADER, fragmentShader)!,
-  )
-
-  if (program == undefined) {
-    console.error("Failed to create shader program")
-
+  if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+    console.error("Program link error:", gl.getProgramInfoLog(program))
+    gl.deleteProgram(program)
+    window.removeEventListener("resize", resize)
+    gl.deleteShader(vertexShader)
+    gl.deleteShader(fragmentShader)
     return
-  }
-
-  const positionBuffer = gl.createBuffer()
-
-  if (!positionBuffer) {
-    console.error("Failed to create position buffer")
-
-    return
-  }
-
-  const positions = [
-    0, 0,
-    gl.canvas.width, 0,
-    0, gl.canvas.height,
-    0, gl.canvas.height,
-    gl.canvas.width, 0,
-    gl.canvas.width, gl.canvas.height,
-  ]
-
-  gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer)
-  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW)
-
-  const positionLocation = gl.getAttribLocation(program, "a_position")
-
-  const bindPositionAttribute = () => {
-    if (positionLocation < 0) {
-      return
-    }
-
-    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer)
-    gl.enableVertexAttribArray(positionLocation)
-    gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0)
   }
 
   gl.useProgram(program)
 
-  const resolutionLocation = gl.getUniformLocation(program, "u_resolution")
-  const samplerLocation = gl.getUniformLocation(program, "u_sampler")
-  const displayPassLocation = gl.getUniformLocation(program, "u_displayPass")
+  const vertices = new Float32Array([
+    -1.0, -1.0,
+     1.0, -1.0,
+    -1.0,  1.0,
+    -1.0,  1.0,
+     1.0, -1.0,
+     1.0,  1.0,
+  ])
 
-  if (resolutionLocation) {
-    gl.uniform2f(resolutionLocation, WIDTH, HEIGHT)
-  }
-  if (samplerLocation) {
-    gl.uniform1i(samplerLocation, 0)
-  }
-
-  gl.activeTexture(gl.TEXTURE0)
-
-  const textures = [
-    createTexture2D(gl, source),
-    createTexture2D(gl, source),
-  ]
-
-  const framebuffer = gl.createFramebuffer()
-
-  if (!framebuffer) {
-    console.error("Failed to create framebuffer")
-
+  const vertexBuffer = gl.createBuffer()
+  if (!vertexBuffer) {
+    console.error("Failed to create vertex buffer")
+    window.removeEventListener("resize", resize)
+    gl.deleteProgram(program)
+    gl.deleteShader(vertexShader)
+    gl.deleteShader(fragmentShader)
     return
   }
 
-  let readIndex = 0
-  let writeIndex = 1
-  let animationFrameId = 0
+  gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer)
+  gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW)
 
-  const renderFrame = () => {
-    gl.useProgram(program)
-    bindPositionAttribute()
+  const aPositionLocation = gl.getAttribLocation(program, "aPosition")
 
-    gl.bindFramebuffer(gl.FRAMEBUFFER, framebuffer)
-    gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, textures[writeIndex], 0)
-    gl.viewport(0, 0, WIDTH, HEIGHT)
-    if (displayPassLocation) {
-      gl.uniform1i(displayPassLocation, 0)
-    }
-    if (resolutionLocation) {
-      gl.uniform2f(resolutionLocation, WIDTH, HEIGHT)
-    }
-    gl.bindTexture(gl.TEXTURE_2D, textures[readIndex])
-    gl.drawArrays(gl.TRIANGLES, 0, 6)
-
-    const newReadIndex = writeIndex
-    writeIndex = readIndex
-    readIndex = newReadIndex
-
-    gl.bindFramebuffer(gl.FRAMEBUFFER, null)
-    gl.viewport(0, 0, gl.canvas.width, gl.canvas.height)
-    if (displayPassLocation) {
-      gl.uniform1i(displayPassLocation, 1)
-    }
-    if (resolutionLocation) {
-      gl.uniform2f(resolutionLocation, WIDTH, HEIGHT)
-    }
-    gl.bindTexture(gl.TEXTURE_2D, textures[readIndex])
-    gl.drawArrays(gl.TRIANGLES, 0, 6)
-
-    animationFrameId = requestAnimationFrame(renderFrame)
+  if (aPositionLocation < 0) {
+    console.error("Failed to get aPosition attribute location")
+    window.removeEventListener("resize", resize)
+    gl.deleteBuffer(vertexBuffer)
+    gl.deleteProgram(program)
+    gl.deleteShader(vertexShader)
+    gl.deleteShader(fragmentShader)
+    return
   }
 
-  renderFrame()
+  gl.enableVertexAttribArray(aPositionLocation)
+  gl.vertexAttribPointer(aPositionLocation, 2, gl.FLOAT, false, 0, 0)
 
-  const resetIntervalId = window.setInterval(() => {
-    generateTexture()
+  const uTimeLocation = gl.getUniformLocation(program, "uTime")
+  const uResolutionLocation = gl.getUniformLocation(program, "uResolution")
+  const acid1TextureLocation = gl.getUniformLocation(program, "acid1Texture")
+  const acid2TextureLocation = gl.getUniformLocation(program, "acid2Texture")
 
-    gl.activeTexture(gl.TEXTURE0)
+  if (!uResolutionLocation || !acid1TextureLocation || !acid2TextureLocation) {
+    console.error("Failed to locate required uniforms")
+    window.removeEventListener("resize", resize)
+    gl.deleteBuffer(vertexBuffer)
+    gl.deleteProgram(program)
+    gl.deleteShader(vertexShader)
+    gl.deleteShader(fragmentShader)
+    return
+  }
 
-    textures.forEach((texture) => {
-      gl.bindTexture(gl.TEXTURE_2D, texture)
-      gl.texImage2D(
-        gl.TEXTURE_2D,
-        0,
-        gl.RGBA,
-        WIDTH,
-        HEIGHT,
-        0,
-        gl.RGBA,
-        gl.UNSIGNED_BYTE,
-        source,
-      )
-    })
-  }, 30000)
+  gl.uniform2f(uResolutionLocation, canvas.width, canvas.height)
+
+  let acid1Texture: WebGLTexture | null = null
+  let acid2Texture: WebGLTexture | null = null
+
+  let acid1Image: HTMLImageElement
+  let acid2Image: HTMLImageElement
+
+  try {
+    ;[acid1Image, acid2Image] = await Promise.all([
+      loadImage(acid1TextureSrc),
+      loadImage(acid2TextureSrc),
+    ])
+  } catch (error) {
+    console.error("Failed to load background textures", error)
+    window.removeEventListener("resize", resize)
+    gl.deleteBuffer(vertexBuffer)
+    gl.deleteProgram(program)
+    gl.deleteShader(vertexShader)
+    gl.deleteShader(fragmentShader)
+    return
+  }
+
+  acid1Texture = gl.createTexture()
+  acid2Texture = gl.createTexture()
+
+  if (!acid1Texture || !acid2Texture) {
+    console.error("Failed to create textures")
+    window.removeEventListener("resize", resize)
+    gl.deleteBuffer(vertexBuffer)
+    gl.deleteProgram(program)
+    gl.deleteShader(vertexShader)
+    gl.deleteShader(fragmentShader)
+    return
+  }
+
+  gl.activeTexture(gl.TEXTURE0)
+  gl.bindTexture(gl.TEXTURE_2D, acid1Texture)
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, acid1Image)
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR)
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT)
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT)
+  gl.generateMipmap(gl.TEXTURE_2D)
+  gl.uniform1i(acid1TextureLocation, 0)
+
+  gl.activeTexture(gl.TEXTURE1)
+  gl.bindTexture(gl.TEXTURE_2D, acid2Texture)
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, acid2Image)
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR)
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT)
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT)
+  gl.generateMipmap(gl.TEXTURE_2D)
+  gl.uniform1i(acid2TextureLocation, 1)
+
+  let animationFrameId = 0
+  const startTime = performance.now()
+
+  const render = (timestamp: number) => {
+    const elapsed = (timestamp - startTime) / 100.0
+
+    if (uTimeLocation) {
+      gl.uniform1f(uTimeLocation, elapsed)
+    }
+
+    gl.uniform2f(uResolutionLocation, canvas.width, canvas.height)
+
+    gl.drawArrays(gl.TRIANGLES, 0, 6)
+    animationFrameId = requestAnimationFrame(render)
+  }
+
+  animationFrameId = requestAnimationFrame(render)
 
   return () => {
     cancelAnimationFrame(animationFrameId)
-    window.clearInterval(resetIntervalId)
+    window.removeEventListener("resize", resize)
 
-    gl.bindFramebuffer(gl.FRAMEBUFFER, null)
-
-    textures.forEach((texture) => {
-      gl.deleteTexture(texture)
-    })
-
-    gl.deleteFramebuffer(framebuffer)
-    gl.deleteBuffer(positionBuffer)
+    gl.bindTexture(gl.TEXTURE_2D, null)
+    if (acid1Texture) {
+      gl.deleteTexture(acid1Texture)
+    }
+    if (acid2Texture) {
+      gl.deleteTexture(acid2Texture)
+    }
+    gl.deleteBuffer(vertexBuffer)
     gl.deleteProgram(program)
+    gl.deleteShader(vertexShader)
+    gl.deleteShader(fragmentShader)
   }
 }
 
-// const canvas = document.createElement('canvas')
-// document.body.appendChild(canvas)
-// const gl = canvas.getContext('webgl')!
-
 export const Background: React.FC = () => {
-  const canvas = React.useRef<HTMLCanvasElement>(null)
+  const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
-    const canvasElement = canvas.current
+    const canvas = canvasRef.current
 
-    if (canvasElement == undefined) {
+    if (!canvas) {
       return
     }
 
-    const mainContext = canvasElement.getContext('webgl')
+    let disposed = false
+    let cleanup: (() => void) | void
 
-    if (mainContext == undefined) {
-      return
+    const run = async () => {
+      cleanup = await initNeonFractal(canvas)
+
+      if (disposed && typeof cleanup === "function") {
+        cleanup()
+      }
     }
 
-    const dispose = init(mainContext)
+    run().catch((error) => {
+      console.error("Failed to initialise background shader", error)
+    })
 
     return () => {
-      dispose?.()
+      disposed = true
+      if (typeof cleanup === "function") {
+        cleanup()
+      }
     }
   }, [])
-  
+
   return (
     <div id="background">
-      <canvas ref={canvas} />
+      <canvas ref={canvasRef} />
     </div>
   )
 }

@@ -12,6 +12,8 @@ import Soundcloud from "../assets/icons/Soundcloud.svg"
 import Twitch from "../assets/icons/Twitch.svg"
 import Twitter from "../assets/icons/Twitter.svg"
 import Youtube from "../assets/icons/Youtube.svg"
+import Patreon from "../assets/icons/patreon.svg"
+import Instagram from "../assets/icons/instagram.svg"
 
 export const LinkType = {
   Discord,
@@ -24,6 +26,8 @@ export const LinkType = {
   Twitch,
   Twitter,
   Youtube,
+  Patreon,
+  Instagram,
 }
 
 export const IconLink: React.FC<{
