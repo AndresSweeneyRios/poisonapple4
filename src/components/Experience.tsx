@@ -89,7 +89,7 @@ export const AmihanExperienceBox: React.FC = (props) => {
         </span>
 
         <span className="date text-dark">
-          (Jan 2021 — Present)
+          (Jan 2021 — May 2024)
         </span>
       </h1>
 

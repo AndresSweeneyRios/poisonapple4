@@ -29,83 +29,55 @@ const fragmentShader = /*glsl*/`
   precision mediump float;
   uniform mediump vec2 u_resolution;
   uniform sampler2D u_sampler;
-  uniform float u_wavelength;
+  uniform bool u_displayPass;
 
   varying highp vec2 v_texcoord;
 
-  vec4 getPixel(vec2 position) {
-    return texture2D(u_sampler, position);
-  }
-
-  int getNeighbors(vec2 position) {
+  float getNeighbors(vec2 position, vec2 texel) {
     float neighbors = 0.0;
 
-    float onx = 1.0 / u_resolution.x;
-    float ony = 1.0 / u_resolution.y;
+    neighbors += texture2D(u_sampler, position + vec2( texel.x, -texel.y)).a;
+    neighbors += texture2D(u_sampler, position + vec2( 0.0,     -texel.y)).a;
+    neighbors += texture2D(u_sampler, position + vec2( texel.x,  0.0)).a;
+    neighbors += texture2D(u_sampler, position + vec2( texel.x,  texel.y)).a;
+    neighbors += texture2D(u_sampler, position + vec2( 0.0,      texel.y)).a;
+    neighbors += texture2D(u_sampler, position + vec2(-texel.x,  texel.y)).a;
+    neighbors += texture2D(u_sampler, position + vec2(-texel.x,  0.0)).a;
+    neighbors += texture2D(u_sampler, position + vec2(-texel.x, -texel.y)).a;
 
-    neighbors += getPixel(vec2(position.x + onx, position.y - ony)).a;
-    neighbors += getPixel(vec2(position.x + 0.0, position.y - ony)).a;
-    neighbors += getPixel(vec2(position.x + onx, position.y + 0.0)).a;
-    neighbors += getPixel(vec2(position.x + onx, position.y + ony)).a;
-    neighbors += getPixel(vec2(position.x + 0.0, position.y + ony)).a;
-    neighbors += getPixel(vec2(position.x - onx, position.y + ony)).a;
-    neighbors += getPixel(vec2(position.x - onx, position.y + 0.0)).a;
-    neighbors += getPixel(vec2(position.x - onx, position.y - ony)).a;
-
-    return int(neighbors);
+    return floor(neighbors);
   }
 
   void main() {
-    vec2 st = gl_FragCoord.xy / u_resolution;
+    vec2 texel = vec2(1.0) / u_resolution;
+    vec2 st = gl_FragCoord.xy * texel;
 
-    vec4 cell = getPixel(st.xy);
+    vec4 cell = texture2D(u_sampler, st);
 
-    float onx = 1.0 / u_resolution.x;
-    float ony = 1.0 / u_resolution.y;
+    if (u_displayPass) {
+      gl_FragColor = cell;
+      return;
+    }
 
-    int neighbors = getNeighbors(st.xy);
-    int neighborNeighbors = getNeighbors(st.xy * 0.5);
+    float neighbors = getNeighbors(st, texel);
+    float neighborNeighbors = getNeighbors(st * 0.5, texel);
 
     float wasDead = float(cell.a == 0.8);
     float wasAlive = float(cell.a == 1.0);
     float isAlive = float(
-      (cell.a == 1.0 && (neighbors == 2 || (neighbors > 3 && neighbors < 8 && neighborNeighbors < 4))) || 
-      (cell.a == 0.0 && neighbors == 3) ||
-      (cell.a == 0.8 && neighbors == 4)
-      // (
-      //   int(cell.a) + 
-      //   getNeighbors(st.xy + vec2(-onx * 12.0, ony * 12.0)) +
-      //   getNeighbors(st.xy + vec2(onx * 12.0, -ony * 12.0)) +
-      //   getNeighbors(st.xy + vec2(-onx * 12.0, -ony * 12.0)) +
-      //   getNeighbors(st.xy + vec2(onx * 12.0, ony * 12.0)) == 0
-      // )
+      (cell.a == 1.0 && (neighbors == 2.0 || (neighbors > 3.0 && neighbors < 8.0 && neighborNeighbors < 4.0))) ||
+      (cell.a == 0.0 && neighbors == 3.0) ||
+      (cell.a == 0.8 && neighbors == 4.0)
     );
-    
+
+    float persistence = wasAlive + wasDead;
+
     gl_FragColor = vec4(
-      (isAlive * 0.4) + ((wasAlive + wasDead) * 0.3), 
-      (isAlive * 0.6) + ((wasAlive + wasDead) * 0.1), 
-      isAlive + (wasDead * 1.5), 
+      (isAlive * 0.4) + (persistence * 0.3),
+      (isAlive * 0.6) + (persistence * 0.1),
+      isAlive + (wasDead * 1.5),
       isAlive + (wasAlive * 0.8) + (wasDead * 0.5)
     );
-  }
-`
-
-const postprocessingFragmentShader = /*glsl*/`
-  precision mediump float;
-  uniform mediump vec2 u_resolution;
-  uniform sampler2D u_sampler;
-  uniform float u_wavelength;
-
-  varying highp vec2 v_texcoord;
-
-  vec4 getPixel(vec2 position) {
-    return texture2D(u_sampler, position);
-  }
-
-  void main() {
-    vec2 st = gl_FragCoord.xy / u_resolution;
-
-    gl_FragColor = getPixel(st.xy);
   }
 `
 
@@ -139,6 +111,30 @@ const createProgram = (gl: WebGLRenderingContext, vertexShader: WebGLShader, fra
 }
 
 const source = new Uint8Array(WIDTH * HEIGHT * 4)
+
+const createTexture2D = (gl: WebGLRenderingContext, data?: ArrayBufferView | null) => {
+  const texture = gl.createTexture()!
+
+  gl.bindTexture(gl.TEXTURE_2D, texture)
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST)
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST)
+
+  gl.texImage2D(
+    gl.TEXTURE_2D,
+    0,
+    gl.RGBA,
+    WIDTH,
+    HEIGHT,
+    0,
+    gl.RGBA,
+    gl.UNSIGNED_BYTE,
+    data ?? null,
+  )
+
+  return texture
+}
 
 const generateTexture = () => {
   let i = 0
@@ -184,121 +180,146 @@ const init = (gl: WebGLRenderingContext) => {
   )
 
   if (program == undefined) {
-    console.error("Failed to create program")
+    console.error("Failed to create shader program")
 
     return
   }
 
-  gl.viewport(0, 0, gl.canvas.width, gl.canvas.height)
-  gl.useProgram(program)
+  const positionBuffer = gl.createBuffer()
 
-  const positionAttributeLocation = gl.getAttribLocation(program, "a_position")
-  const resolutionUniformLocation = gl.getUniformLocation(program, "u_resolution")
+  if (!positionBuffer) {
+    console.error("Failed to create position buffer")
 
-  gl.uniform2f(resolutionUniformLocation, gl.canvas.width, gl.canvas.height)
+    return
+  }
 
-  {
-    const positionBuffer = gl.createBuffer()
+  const positions = [
+    0, 0,
+    gl.canvas.width, 0,
+    0, gl.canvas.height,
+    0, gl.canvas.height,
+    gl.canvas.width, 0,
+    gl.canvas.width, gl.canvas.height,
+  ]
 
-    const positions = [
-      0, 0,
-      gl.canvas.width, 0,
-      0, gl.canvas.height,
-      0, gl.canvas.height,
-      gl.canvas.width, 0,
-      gl.canvas.width, gl.canvas.height,
-    ]
+  gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer)
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW)
+
+  const positionLocation = gl.getAttribLocation(program, "a_position")
+
+  const bindPositionAttribute = () => {
+    if (positionLocation < 0) {
+      return
+    }
 
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer)
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW)
-    gl.enableVertexAttribArray(positionAttributeLocation)
+    gl.enableVertexAttribArray(positionLocation)
+    gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0)
   }
 
-  const texture = gl.createTexture()
+  gl.useProgram(program)
 
-  gl.bindTexture(gl.TEXTURE_2D, texture)
+  const resolutionLocation = gl.getUniformLocation(program, "u_resolution")
+  const samplerLocation = gl.getUniformLocation(program, "u_sampler")
+  const displayPassLocation = gl.getUniformLocation(program, "u_displayPass")
 
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST)
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST)
-
-  gl.texImage2D(
-    gl.TEXTURE_2D, 
-    0, 
-    gl.RGBA, 
-    WIDTH, 
-    HEIGHT, 
-    0, 
-    gl.RGBA, 
-    gl.UNSIGNED_BYTE,
-    source,
-  )
-
-  {
-    const size = 2
-    const type = gl.FLOAT
-    const normalize = false
-    const stride = 0
-    const offset = 0
-
-    gl.vertexAttribPointer(positionAttributeLocation, size, type, normalize, stride, offset)
+  if (resolutionLocation) {
+    gl.uniform2f(resolutionLocation, WIDTH, HEIGHT)
+  }
+  if (samplerLocation) {
+    gl.uniform1i(samplerLocation, 0)
   }
 
-  gl.clearColor(0, 0, 0, 0)
-  gl.clear(gl.COLOR_BUFFER_BIT)
+  gl.activeTexture(gl.TEXTURE0)
 
-  const render = (skipRerender = false) => {
+  const textures = [
+    createTexture2D(gl, source),
+    createTexture2D(gl, source),
+  ]
+
+  const framebuffer = gl.createFramebuffer()
+
+  if (!framebuffer) {
+    console.error("Failed to create framebuffer")
+
+    return
+  }
+
+  let readIndex = 0
+  let writeIndex = 1
+  let animationFrameId = 0
+
+  const renderFrame = () => {
+    gl.useProgram(program)
+    bindPositionAttribute()
+
+    gl.bindFramebuffer(gl.FRAMEBUFFER, framebuffer)
+    gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, textures[writeIndex], 0)
+    gl.viewport(0, 0, WIDTH, HEIGHT)
+    if (displayPassLocation) {
+      gl.uniform1i(displayPassLocation, 0)
+    }
+    if (resolutionLocation) {
+      gl.uniform2f(resolutionLocation, WIDTH, HEIGHT)
+    }
+    gl.bindTexture(gl.TEXTURE_2D, textures[readIndex])
     gl.drawArrays(gl.TRIANGLES, 0, 6)
 
-    gl.flush()
+    const newReadIndex = writeIndex
+    writeIndex = readIndex
+    readIndex = newReadIndex
 
-    gl.readPixels(0, 0, WIDTH, HEIGHT, gl.RGBA, gl.UNSIGNED_BYTE, source)
-
-    gl.texImage2D(
-      gl.TEXTURE_2D, 
-      0, 
-      gl.RGBA, 
-      gl.canvas.width, 
-      gl.canvas.height, 
-      0, 
-      gl.RGBA, 
-      gl.UNSIGNED_BYTE,
-      new Uint8Array(source),
-    )
-    
-    // setTimeout(render, 1000 / 30)
-
-    if (!skipRerender) {
-      requestAnimationFrame(() => render());
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null)
+    gl.viewport(0, 0, gl.canvas.width, gl.canvas.height)
+    if (displayPassLocation) {
+      gl.uniform1i(displayPassLocation, 1)
     }
+    if (resolutionLocation) {
+      gl.uniform2f(resolutionLocation, WIDTH, HEIGHT)
+    }
+    gl.bindTexture(gl.TEXTURE_2D, textures[readIndex])
+    gl.drawArrays(gl.TRIANGLES, 0, 6)
+
+    animationFrameId = requestAnimationFrame(renderFrame)
   }
 
-  render()
+  renderFrame()
 
-  // prewarm
-  render(true)
-  render(true)
-
-  setInterval(() => {
+  const resetIntervalId = window.setInterval(() => {
     generateTexture()
 
-    gl.texImage2D(
-      gl.TEXTURE_2D, 
-      0, 
-      gl.RGBA, 
-      WIDTH, 
-      HEIGHT, 
-      0, 
-      gl.RGBA, 
-      gl.UNSIGNED_BYTE,
-      source,
-    )
-  
-    // prewarm
-    render(true)
-    render(true)
+    gl.activeTexture(gl.TEXTURE0)
+
+    textures.forEach((texture) => {
+      gl.bindTexture(gl.TEXTURE_2D, texture)
+      gl.texImage2D(
+        gl.TEXTURE_2D,
+        0,
+        gl.RGBA,
+        WIDTH,
+        HEIGHT,
+        0,
+        gl.RGBA,
+        gl.UNSIGNED_BYTE,
+        source,
+      )
+    })
   }, 30000)
+
+  return () => {
+    cancelAnimationFrame(animationFrameId)
+    window.clearInterval(resetIntervalId)
+
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null)
+
+    textures.forEach((texture) => {
+      gl.deleteTexture(texture)
+    })
+
+    gl.deleteFramebuffer(framebuffer)
+    gl.deleteBuffer(positionBuffer)
+    gl.deleteProgram(program)
+  }
 }
 
 // const canvas = document.createElement('canvas')
@@ -309,14 +330,24 @@ export const Background: React.FC = () => {
   const canvas = React.useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
-    if (canvas.current == undefined) {
+    const canvasElement = canvas.current
+
+    if (canvasElement == undefined) {
       return
     }
 
-    const mainContext = canvas.current.getContext('webgl')!
+    const mainContext = canvasElement.getContext('webgl')
 
-    init(mainContext)
-  }, [canvas])
+    if (mainContext == undefined) {
+      return
+    }
+
+    const dispose = init(mainContext)
+
+    return () => {
+      dispose?.()
+    }
+  }, [])
   
   return (
     <div id="background">
