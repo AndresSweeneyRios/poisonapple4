@@ -5,7 +5,7 @@ import { Background } from "./components/Background"
 import Apple from "./assets/lowpoly_apple_transparent.webp"
 import SVG from "react-inlinesvg"
 import Amihan from "../assets/projects/amihan.svg"
-import { AestellExperienceBox, AeternumExperienceBox, AmihanExperienceBox, FwdslashExperienceBox, HealthExperienceBox, KrakenExperienceBox, StardustExperienceBox } from "./components/Experience"
+import { AestellExperienceBox, AeternumExperienceBox, AmihanExperienceBox, TripshredExperienceBox, FwdslashExperienceBox, HealthExperienceBox, KrakenExperienceBox, StardustExperienceBox } from "./components/Experience"
 
 const App: React.FC = () => {
   return (
@@ -88,6 +88,13 @@ const App: React.FC = () => {
               </svg>
               poisonapple
             </span>
+          </div>
+        </section>
+
+        <section className="experience-container">
+          <h1>Projects</h1>
+          <div className="experience">
+            <TripshredExperienceBox />
           </div>
         </section>
         

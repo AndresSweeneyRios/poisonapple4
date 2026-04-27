@@ -14,6 +14,7 @@ import Twitter from "../assets/icons/twitter.svg"
 import Youtube from "../assets/icons/youtube.svg"
 import Patreon from "../assets/icons/patreon.svg"
 import Instagram from "../assets/icons/instagram.svg"
+import Itchio from "../assets/icons/itchio.svg"
 
 export const LinkType = {
   Discord,
@@ -28,6 +29,7 @@ export const LinkType = {
   Youtube,
   Patreon,
   Instagram,
+  Itchio,
 }
 
 export const IconLink: React.FC<{

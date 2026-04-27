@@ -12,6 +12,7 @@ import Aeternum from "../assets/projects/firefight.svg"
 import Stardust from "../assets/projects/stardust.svg"
 import Kraken from "../assets/projects/kraken.svg"
 import Health from "../assets/projects/health.png"
+import TripShred from "../assets/projects/tripshred.svg"
 
 import SnicksnackKeepsies from "../assets/screenshots/snicksnack-keepsies.webp"
 import SnicksnackKeepsiesSmall from "../assets/screenshots/snicksnack-keepsies_small.webp"
@@ -49,6 +50,11 @@ import ThoughtLeaderMp4 from "../assets/screenshots/thoughtleader.mp4"
 import ThoughtLeaderMp4Small from "../assets/screenshots/thoughtleader_small.mp4"
 import HealthMp4 from "../assets/screenshots/health.mp4"
 import HealthMp4Small from "../assets/screenshots/health_small.mp4"
+import ArchitectEngine from "../assets/screenshots/architect-engine.mp4"
+import ArchitectEngineSmall from "../assets/screenshots/architect-engine_small.mp4"
+import CrazeohCollage from "../assets/screenshots/crazeoh-collage.png"
+import CrazeohCollageSmall from "../assets/screenshots/crazeoh-collage_small.webp"
+import FarmFrens from "../assets/screenshots/farm_frens.webp"
 
 export const Screenshot: React.FC<{
   url: string
@@ -81,10 +87,11 @@ export const ExperienceItem: React.FC<{
   description: React.ReactNode
   links: React.ReactNode
   screenshots: React.ReactNode
+  hideBar?: boolean
 }> = (props) => {
   return (
     <div className="experience-item">
-      <div className="bar" />
+      {!props.hideBar && <div className="bar" />}
 
       <div>
         <h1 className="title">
@@ -137,9 +144,7 @@ export const AmihanExperienceBox: React.FC = (props) => {
         
         description={<>
           This was a social MMO with various minigames, shops, outfits, and a snowglobe builder.
-          I joined the team as a UI developer, and later worked on the backend and minigames, 
-          which were built in a mixture of web technologies &amp; Unity. The alpha is still
-          playable online.
+          I joined the team as a UI developer, later working on the backend and minigames.
         </>}
 
         links={<></>}
@@ -166,9 +171,8 @@ export const AmihanExperienceBox: React.FC = (props) => {
         role="UI Development, Art Pipeline, Gameplay"
         
         description={<>
-          After SnickSnack, we moved to a 3D browser game, where I led the engineering team to 
-          lay the foundations for our prototype's code architecture, UI systems, gameplay loop, 
-          and several different art experiments, running benchmarks and configuring our art pipeline.  
+          After SnickSnack, we started prototyping a 3D browser game, where I led the engineering team. This included world 
+          space UI systems, a finished gameplay loop, shader experiments, benchmarking, and art pipeline tools.
         </>}
 
         links={<></>}
@@ -204,18 +208,13 @@ export const AmihanExperienceBox: React.FC = (props) => {
 
       <ExperienceItem 
         title="Everseed"
-        role="Gameplay, Tools Development, UI Development, Frontend"
+        role="Gameplay, Tools Development, UI Development, Frontend, Graphics"
         
         description={<>
           We pivoted to a new roguelike tower defense prototype <b>Everseed</b>, 
           where you grow plants to defend against enemy waves. My role on this project 
-          has been primarily in architecture, gameplay, and UI, with a focus on building 
-          tooling for the design team. We launched a closed playtest in May 2022, and the 
-          prototype is still in development.
-          <br /><br />
-          Working with the art team, I also built the frontend for 
-          the <a href="https://everseed.com">Everseed Website</a>, which included 
-          details about the project and previews for some of the early art.
+          was primarily architecture, gameplay, and UI, with a focus on building 
+          content tooling. We launched a closed playtest in May 2022.
         </>}
 
         links={<>
@@ -245,15 +244,10 @@ export const AmihanExperienceBox: React.FC = (props) => {
         role="Frontend"
         
         description={<>
-          In preparation for our first NFT launch, I worked with the art &amp; engineering teams 
-          where I was responsible for developing the UI to create the <b>Everseed Elixir Website</b>, 
-          which was a digital shop where you could purchase what was known as an <i>elixir</i>. This 
-          would be consumed by the avatar creator when minting your avatar. Elixir sales on this website are now closed.
-          <br /><br />
-          Shortly after, we also launched the <b>Everseed Avatar Creator</b>, a character customizer 
-          that required an elixir to mint a new avatar that would be attached to your account for 
-          the core game. I was again responsible for UI development mainly. The customizer portion 
-          of this website is still online and functional.
+          In preparation for our first NFT launch, I led the frontend team to build the 
+          <> </><b>Everseed Elixir Website</b>, a digital shop where you could purchase an 
+          item to be consumed when minting your avatar in the <b>Everseed Avatar Creator</b>, a 
+          character customizer integrated with the core game.
         </>}
 
         links={<></>}
@@ -271,6 +265,32 @@ export const AmihanExperienceBox: React.FC = (props) => {
           <Screenshot url={AvatarCulture} small={AvatarCultureSmall} title="Avatar Culture" />
           <Screenshot url={AvatarCustomizer} small={AvatarCustomizerSmall} title="Avatar Customizer" />
         </>}
+      />
+
+      <ExperienceItem
+        title="Farm Frens"
+        role="Frontend, Gameplay, Graphics"
+
+        description={<>
+          After my departure from Kraken, I joined Amihan once again as a consultant for frontend and WebGL development.
+          I worked on the rewrite of the Farm Frens mobile game, focusing on improving performance and building minigames in Cocos Creator.
+        </>}
+
+        links={<>
+          <IconLink type="Website" title="Website" href="https://farmfrens.com/" />
+        </>}
+
+        screenshots={<>
+          <Screenshot url={FarmFrens} small={FarmFrens} title="Farm Frens" />
+        </>}
+
+        technologies={[
+          "TypeScript",
+          "React",
+          "AWS",
+          "Figma",
+          "GLSL",
+        ]}
       />
     </div>
   )
@@ -365,8 +385,8 @@ export const AestellExperienceBox: React.FC = (props) => {
 
         description={<>
           I led the team building Supscript, a service to provide users with a way to receive 
-          notifications for new sales on limited items. I built a dashboard for this app, 
-          an admin panel, a subscription system, and various statistics pages.
+          notifications for new sales on limited items. I built the dashboard for this app, the subscription service, 
+          and admin panel with analytics tools.
         </>}
 
         links={<></>}
@@ -509,9 +529,8 @@ export const KrakenExperienceBox: React.FC = () => {
         role="Frontend"
 
         description={<>
-          As part of Kraken's marketing team I helped streamline publishing workflows,
-          built reusable React components and small tools to make content updates faster,
-          and mentored junior developers to raise code quality across the team.
+          As part of Kraken's marketing team, I helped streamline publishing workflows, improved SEO in the learning center,
+          built content authoring tools for our in-house CMS, and mentored frontend developers in frontend best practices.
         </>}
 
         links={<>
@@ -608,3 +627,80 @@ export const HealthExperienceBox: React.FC = () => {
   )
 }
 
+export const TripshredExperienceBox: React.FC = () => {
+  return (
+    <div className="experience-box">
+      <h1>
+        <img src={TripShred} />
+
+        <span>
+          TripShred
+        </span>
+
+        <span className="date text-dark">
+          (GAME STUDIO)
+        </span>
+      </h1>
+
+      <ExperienceItem
+        title="Architect Engine"
+        role="Frontend, Gameplay, Graphics"
+
+        description={<>
+          Native WebGPU game engine I built in TypeScript, featuring a custom deferred renderer 
+          with a stylized post-process stage using palette quantization and ordered dithering. 
+          The runtime uses an ECS-style state model and Rapier3D physics integration. To compress the 3D assets,
+          I build a custom GLTF pipeline that packs color channels and atlases textures.
+        </>}
+
+        links={<>
+          <IconLink type="Website" title="Live Demo" href="https://andressweeneyrios.github.io/architect-engine/" />
+          <IconLink type="Github" title="Source Code" href="https://github.com/AndresSweeneyRios/architect-engine" />
+        </>}
+        
+        technologies={[
+          "React",
+          "TypeScript",
+        ]}
+
+        screenshots={<>
+          <Screenshot url={ArchitectEngine} small={ArchitectEngineSmall} title="Architect Engine" />
+        </>}
+      />
+
+      <ExperienceItem
+        title="CrazeOh"
+        role="Frontend, Gameplay, Graphics"
+
+        description={<>
+          Anomaly horror game I built in Three.js with custom post-processing shaders and a 3D audio engine,
+          featuring level design by Kemal Albayrak. We collaborated closely for several months, releasing in June 2025 on Itch.io.
+
+          <br/>
+          <br/>
+
+          <i>Will you uncover the truth behind CrazeOh's disappearance? Or will you become part of the stream?</i>
+        </>}
+
+        links={<>
+          <IconLink type="Itchio" title="Itch.io" href="https://tripshred.itch.io/crazeoh" />
+          <IconLink type="Website" title="Studio Website" href="https://tripshred.com" />
+        </>}
+
+        technologies={[
+          "React",
+          "TypeScript",
+          "Three.js",
+          "GLSL",
+          "Electron",
+          "Figma",
+          "AWS",
+        ]}
+
+        screenshots={<>
+          <Screenshot url={CrazeohCollage} small={CrazeohCollageSmall} title="CrazeOh Collage" />
+        </>}
+      />
+    </div> 
+  )
+}
