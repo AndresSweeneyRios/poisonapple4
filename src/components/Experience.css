@@ -19,33 +19,35 @@
   align-items: flex-start;
 }
 
-.experience-box > h1 {
+.experience-box > h3 {
   display: flex;
   align-items: center;
   gap: 0.5em;
 }
 
-.experience-box > h1 {
+.experience-box > h3 {
   /* font-weight: 600; */
   text-transform: uppercase;
   font-size: 2.1em;
 }
 
-.experience-box > h1 > span {
+.experience-box > h3 > span {
   font-size: 0.65em;
 }
 
-.experience-box > h1 .date {
+.experience-box > h3 .date {
   font-size: 0.6em;
   font-weight: 400;
 } 
 
-.experience-box > h1 > svg, .experience-item .bar, .experience-box > h1 > img {
+.experience-box > h3 > svg, .experience-box > h3 > .inline-svg > svg, .experience-item .bar, .experience-box > h3 > img {
   width: 3.2rem;
   flex-shrink: 0;
 }
 
 .experience-item {
+  width: 100%;
+  min-width: 0;
   display: flex;
   align-items: stretch;
 }
@@ -55,7 +57,7 @@
 }
 
 .experience-item .bar {
-  flex-grow: 1;
+  flex: 0 0 3.2rem;
   position: relative;
   display: flex;
   align-items: center;
@@ -121,6 +123,11 @@
   font-size: 1em;
 }
 
+.experience-item > div:last-child {
+  flex: 1;
+  min-width: 0;
+}
+
 .experience-item > div {
   display: flex;
   flex-direction: column;
@@ -129,46 +136,32 @@
 }
 
 .experience-item .screenshots {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  width: 100%;
   gap: 0.5rem;
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
 }
 
 .experience-item .screenshots a {
-  height: 9.5em;
-  width: 15em;
+  display: block;
+  width: 100%;
+  height: auto;
+  min-width: 0;
+  align-self: start;
   filter: saturate(75%) brightness(85%);
-  background-size: auto 110%;
-  background-position: center;
   border-radius: 0.5em;
   border: 0.2em dashed rgba(255, 255, 255, 0.4);
-  transition: background-size 0.1s ease-out;
-  position: relative;
-  z-index: 1;
   overflow: hidden;
 }
 
+.experience-item .screenshots .screenshot-image,
 .experience-item .screenshots a video {
-  position: absolute;
-  height: 100%;
+  display: block;
   width: 100%;
-  object-fit: cover;
-  top: 0;
-  left: 0;
-  border-radius: 0.5em;
-  transition: transform 0.1s ease-out;
-  transform: scale(1);
-  z-index: 0;
-}
-
-.experience-item .screenshots a:hover {
-  background-size: auto 120%;
-}
-
-.experience-item .screenshots a:hover video {
-  transform: scale(1.2);
+  height: auto;
+  object-fit: contain;
 }
 
 .experience .technologies {
@@ -181,4 +174,126 @@
 .experience .technologies:empty, 
 .experience .links:empty {
   display: none;
+}
+@media (max-width: 900px) {
+  .experience {
+    gap: 4rem;
+    --timeline-width: 2.75rem;
+    --timeline-gap: 0.6rem;
+  }
+
+  .experience-box > h3 {
+    display: grid;
+    grid-template-columns: var(--timeline-width) minmax(0, 1fr);
+    align-items: center;
+    column-gap: var(--timeline-gap);
+    row-gap: 0.45rem;
+    width: 100%;
+    min-height: var(--timeline-width);
+    position: relative;
+  }
+
+  .experience-box > h3::after {
+    content: "";
+    position: absolute;
+    left: calc(var(--timeline-width) / 2 - 0.1rem);
+    top: var(--timeline-width);
+    bottom: 0;
+    width: 0.2rem;
+    background: rgb(60, 56, 67);
+    opacity: 0.75;
+  }
+
+  .experience-box > h3 > svg,
+  .experience-box > h3 > .inline-svg > svg,
+  .experience-box > h3 > img {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    align-self: start;
+    width: var(--timeline-width);
+    height: var(--timeline-width);
+    object-fit: contain;
+  }
+
+  .experience-box > h3 > span:not(.inline-svg):not(.date) {
+    grid-column: 2;
+    grid-row: 1;
+    font-size: 1.05rem;
+    line-height: 1.3;
+  }
+
+  .experience-box > h3 .date {
+    grid-column: 2;
+    grid-row: 2;
+    font-size: 0.8rem;
+    line-height: 1.3;
+  }
+
+  /* Separate the company/date heading from the first project heading.
+     Keep the gap inside the header so its connector spans the full distance. */
+  .experience-box > h3 {
+    padding-bottom: 1.1rem;
+  }
+
+  .experience-item .bar {
+    width: var(--timeline-width);
+    flex: 0 0 var(--timeline-width);
+    margin-right: var(--timeline-gap);
+  }
+
+  .experience-item .bar::after {
+    top: 1rem;
+  }
+
+  .experience-item:last-child .bar {
+    clip-path: inset(0 0 calc(100% - 1.25rem) 0);
+  }
+
+  .experience-item .title {
+    height: auto;
+    min-height: 3.2rem;
+    padding: 0.5rem 0;
+    font-size: 1.15rem;
+    line-height: 1.3;
+    flex-wrap: wrap;
+    gap: 0.45rem 0.6rem;
+  }
+
+  .experience-item .title span {
+    max-width: 100%;
+  }
+
+  .experience-item .description {
+    font-size: 1.05rem;
+    margin-top: 0;
+    overflow-wrap: break-word;
+  }
+
+  .experience-item .links {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .experience .technologies {
+    font-size: 0.85rem;
+    gap: 0.35rem;
+  }
+
+  .experience-item .screenshots {
+    gap: 0.35rem;
+  }
+
+  .experience-item .screenshots a {
+    border-width: 0.14em;
+  }
+}
+
+@media (max-width: 600px) {
+  .experience-item .screenshots {
+    grid-template-columns: minmax(0, 1fr);
+    width: 13.5em;
+    max-width: 100%;
+    gap: 1rem;
+    align-items: start;
+  }
 }

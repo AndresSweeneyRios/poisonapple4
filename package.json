@@ -1,7 +1,9 @@
 {
   "scripts": {
-    "build": "vite build",
-    "dev": "vite"
+    "build": "node scripts/build.mjs",
+    "dev": "vite",
+    "preview": "vite preview",
+    "seo:images": "node scripts/build-social.mjs"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

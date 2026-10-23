@@ -98,14 +98,20 @@ const initNeonFractal = async (canvas: HTMLCanvasElement) => {
     }
   }
 
+  const resizeObserver = new ResizeObserver(resize)
+  if (canvas.parentElement) resizeObserver.observe(canvas.parentElement)
   window.addEventListener("resize", resize)
+  const stopResize = () => {
+    window.removeEventListener("resize", resize)
+    resizeObserver.disconnect()
+  }
   resize()
 
   const vertexShader = compileShader(gl, gl.VERTEX_SHADER, vertexShaderSource)
   const fragmentShader = compileShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSource)
 
   if (!vertexShader || !fragmentShader) {
-    window.removeEventListener("resize", resize)
+    stopResize()
     return
   }
 
@@ -113,7 +119,7 @@ const initNeonFractal = async (canvas: HTMLCanvasElement) => {
 
   if (!program) {
     console.error("Failed to create shader program")
-    window.removeEventListener("resize", resize)
+    stopResize()
     gl.deleteShader(vertexShader)
     gl.deleteShader(fragmentShader)
     return
@@ -126,7 +132,7 @@ const initNeonFractal = async (canvas: HTMLCanvasElement) => {
   if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
     console.error("Program link error:", gl.getProgramInfoLog(program))
     gl.deleteProgram(program)
-    window.removeEventListener("resize", resize)
+    stopResize()
     gl.deleteShader(vertexShader)
     gl.deleteShader(fragmentShader)
     return
@@ -146,7 +152,7 @@ const initNeonFractal = async (canvas: HTMLCanvasElement) => {
   const vertexBuffer = gl.createBuffer()
   if (!vertexBuffer) {
     console.error("Failed to create vertex buffer")
-    window.removeEventListener("resize", resize)
+    stopResize()
     gl.deleteProgram(program)
     gl.deleteShader(vertexShader)
     gl.deleteShader(fragmentShader)
@@ -160,7 +166,7 @@ const initNeonFractal = async (canvas: HTMLCanvasElement) => {
 
   if (aPositionLocation < 0) {
     console.error("Failed to get aPosition attribute location")
-    window.removeEventListener("resize", resize)
+    stopResize()
     gl.deleteBuffer(vertexBuffer)
     gl.deleteProgram(program)
     gl.deleteShader(vertexShader)
@@ -178,7 +184,7 @@ const initNeonFractal = async (canvas: HTMLCanvasElement) => {
 
   if (!uResolutionLocation || !acid1TextureLocation || !acid2TextureLocation) {
     console.error("Failed to locate required uniforms")
-    window.removeEventListener("resize", resize)
+    stopResize()
     gl.deleteBuffer(vertexBuffer)
     gl.deleteProgram(program)
     gl.deleteShader(vertexShader)
@@ -201,7 +207,7 @@ const initNeonFractal = async (canvas: HTMLCanvasElement) => {
     ])
   } catch (error) {
     console.error("Failed to load background textures", error)
-    window.removeEventListener("resize", resize)
+    stopResize()
     gl.deleteBuffer(vertexBuffer)
     gl.deleteProgram(program)
     gl.deleteShader(vertexShader)
@@ -214,7 +220,7 @@ const initNeonFractal = async (canvas: HTMLCanvasElement) => {
 
   if (!acid1Texture || !acid2Texture) {
     console.error("Failed to create textures")
-    window.removeEventListener("resize", resize)
+    stopResize()
     gl.deleteBuffer(vertexBuffer)
     gl.deleteProgram(program)
     gl.deleteShader(vertexShader)
@@ -262,7 +268,7 @@ const initNeonFractal = async (canvas: HTMLCanvasElement) => {
 
   return () => {
     cancelAnimationFrame(animationFrameId)
-    window.removeEventListener("resize", resize)
+    stopResize()
 
     gl.bindTexture(gl.TEXTURE_2D, null)
     if (acid1Texture) {
@@ -278,7 +284,7 @@ const initNeonFractal = async (canvas: HTMLCanvasElement) => {
   }
 }
 
-export const Background: React.FC = () => {
+export const BackgroundCanvas: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
@@ -311,9 +317,9 @@ export const Background: React.FC = () => {
     }
   }, [])
 
-  return (
-    <div id="background">
-      <canvas ref={canvasRef} />
-    </div>
-  )
+  return <canvas ref={canvasRef} />
 }
+
+export const Background: React.FC = () => (
+  <div id="background"><BackgroundCanvas /></div>
+)

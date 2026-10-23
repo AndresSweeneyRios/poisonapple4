@@ -1,0 +1,51 @@
+Portfolio metadata
+
+scripts/metadata.mjs is the source for title, description, social tags, canonical
+URL, and the JSON-LD graph. Vite injects this into both development and static
+production HTML. Keep claims aligned with visible portfolio copy.
+
+Schema: Person, WebSite, ProfilePage, three CreativeWork projects and one
+SoftwareSourceCode project. Project URLs point at real section anchors. No
+invented ratings, pricing, qualifications, traffic numbers, or review snippets.
+
+npm run seo:images regenerates the 1200x630 social card and square brand icons
+from existing artwork and screenshots. These generated public files are included
+in npm run build. Social cards are intended for shared links; Google controls
+its own result layout and may rewrite titles/descriptions.
+
+The sitemap includes only the canonical homepage. Fragment anchors are not
+separate indexed pages. The obsolete 2024 lastmod and daily update hint were
+removed rather than replaced with a misleading build-time date. robots.txt
+allows crawling. Static HTML exposes the actual portfolio without JavaScript.
+
+No special AI-only tags or llms.txt are required for Google's AI search features.
+The page has a semantic heading hierarchy and JSON-LD to make entity/project
+relationships explicit. Adding this does not guarantee a special search result.
+
+Locally checked: JSON parses, graph references and project anchors resolve,
+metadata names are unique, one H1, unique document IDs, public image dimensions,
+canonical URL and sitemap. External rich-result testing and Search Console
+inspection require the deployed URL and have not been performed for this draft.
+
+Research checked October 23, 2026:
+https://developers.google.com/search/docs/appearance/structured-data/profile-page
+https://developers.google.com/search/docs/appearance/site-names
+https://developers.google.com/search/docs/appearance/snippet
+https://developers.google.com/search/docs/appearance/title-link
+https://developers.google.com/search/docs/fundamentals/ai-optimization-guide
+https://schema.org/SoftwareSourceCode
+
+Indexing audit, October 23, 2026:
+- Live hosting confirmed Netlify; HTTP and www redirect permanently (301) to
+  https://poisonapple.dev/. Homepage/robots/sitemap return 200; missing paths 404.
+- No blocking X-Robots-Tag observed. No source-level noindex or disallow rules.
+- Live site still serves pre-publication content and its stale 2024 sitemap.
+- Both currently signed-in Google accounts show Search Console's welcome screen,
+  with no configured property visible. No ownership verification or submissions
+  were created. An inaccessible property in another account is not ruled out.
+- Replaced non-square legacy favicon.ico with square 16/32/48/96 variants locally.
+- The production build enriches its single-page sitemap with full-size screenshot
+  URLs extracted from actual rendered links, so hashed assets stay synchronized.
+- After deployment, verify Search Console ownership, submit /sitemap.xml, and
+  inspect/request indexing of the canonical homepage. No deployment or indexing
+  requests have been sent as part of this local audit.

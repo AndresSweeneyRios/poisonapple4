@@ -1,18 +1,26 @@
 import "./Experience.css"
 
 import React from "react"
-import SVG from "react-inlinesvg"
+import { InlineSvg as SVG } from "./InlineSvg"
 import { IconLink } from "../components/IconLink"
 import { TechBadge, Technologies } from "../components/TechBadge"
 
-import Amihan from "../assets/projects/amihan.svg"
-import Rakegg from "../assets/projects/rakegg.svg"
-import Aestell from "../assets/projects/aestell.svg"
-import Aeternum from "../assets/projects/firefight.svg"
-import Stardust from "../assets/projects/stardust.svg"
-import Kraken from "../assets/projects/kraken.svg"
+import Amihan from "../assets/projects/amihan.svg?raw"
+import Rakegg from "../assets/projects/rakegg.svg?raw"
+import Aestell from "../assets/projects/aestell.svg?raw"
+import Aeternum from "../assets/projects/firefight.svg?raw"
+import Stardust from "../assets/projects/stardust.svg?raw"
+import Kraken from "../assets/projects/kraken.svg?raw"
 import Health from "../assets/projects/health.png"
-import TripShred from "../assets/projects/tripshred.svg"
+import EightBallMenu from "../assets/screenshots/8ball-menu-japanese.png"
+import EightBallMenuSmall from "../assets/screenshots/8ball-menu-japanese-small.webp"
+import EightBallGame from "../assets/screenshots/8ball-in-game.png"
+import EightBallGameSmall from "../assets/screenshots/8ball-in-game-small.webp"
+import HealthMembers2026 from "../assets/screenshots/health-members-2026.png"
+import HealthMembers2026Small from "../assets/screenshots/health-members-2026.webp"
+import HealthAccount2026 from "../assets/screenshots/health-account-2026.png"
+import HealthAccount2026Small from "../assets/screenshots/health-account-2026.webp"
+import TripShred from "../assets/projects/tripshred.svg?raw"
 
 import SnicksnackKeepsies from "../assets/screenshots/snicksnack-keepsies.webp"
 import SnicksnackKeepsiesSmall from "../assets/screenshots/snicksnack-keepsies_small.webp"
@@ -59,6 +67,7 @@ import FarmFrens from "../assets/screenshots/farm_frens.webp"
 export const Screenshot: React.FC<{
   url: string
   small?: string
+  position?: React.CSSProperties["backgroundPosition"]
   title: string
 }> = (props) => {
   if (/\.(mp4|webm)$/.test(props.url)) {
@@ -76,7 +85,9 @@ export const Screenshot: React.FC<{
   }
 
   return (
-    <a style={{ backgroundImage: `url(${props.small || props.url})` }} href={props.url} title={props.title} />
+    <a href={props.url} title={props.title}>
+      <img className="screenshot-image" src={props.small || props.url} alt={props.title} loading="lazy" style={{ objectPosition: props.position }} />
+    </a>
   )
 }
 
@@ -90,16 +101,16 @@ export const ExperienceItem: React.FC<{
   hideBar?: boolean
 }> = (props) => {
   return (
-    <div className="experience-item">
+    <div className="experience-item" id={typeof props.title === "string" ? props.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") : undefined}>
       {!props.hideBar && <div className="bar" />}
 
       <div>
-        <h1 className="title">
+        <h4 className="title">
           {props.title}
           <span className="text-dark">
             ({props.role})
           </span>
-        </h1>
+        </h4>
 
         <p className="description text-dark">
           {props.description}
@@ -123,10 +134,41 @@ export const ExperienceItem: React.FC<{
   )
 }
 
+export const AmihanContractExperienceBox: React.FC = () => (
+  <div className="experience-box" id="amihan-contract">
+    <h3><SVG src={Amihan} /><span>Amihan Entertainment — Contract</span><span className="date text-dark">(Feb 2025 — Sep 2025)</span></h3>
+      <ExperienceItem
+        title="Farm Frens"
+        role="Frontend, Gameplay, Graphics"
+
+        description={<>
+          I returned to Amihan on a separate contract, consulting on frontend and WebGL development.
+          I worked on the rewrite of the Farm Frens mobile game, focusing on improving performance and building minigames in Cocos Creator.
+        </>}
+
+        links={<>
+          <IconLink type="Website" title="Website" href="https://farmfrens.com/" />
+        </>}
+
+        screenshots={<>
+          <Screenshot url={FarmFrens} small={FarmFrens} title="Farm Frens" />
+        </>}
+
+        technologies={[
+          "TypeScript",
+          "React",
+          "AWS",
+          "Figma",
+          "GLSL",
+        ]}
+      />
+  </div>
+)
+
 export const AmihanExperienceBox: React.FC = (props) => {
   return (
     <div className="experience-box">
-      <h1>
+      <h3>
         <SVG src={Amihan} />
 
         <span>
@@ -136,15 +178,15 @@ export const AmihanExperienceBox: React.FC = (props) => {
         <span className="date text-dark">
           (Jan 2021 — May 2024)
         </span>
-      </h1>
+      </h3>
 
       <ExperienceItem 
         title="SnickSnack"
         role="Frontend, Backend, Gameplay"
         
         description={<>
-          This was a social MMO with various minigames, shops, outfits, and a snowglobe builder.
-          I joined the team as a UI developer, later working on the backend and minigames.
+          SnickSnack combined minigames, shops, character customization, and a snowglobe builder in a social MMO.
+          I started with UI development, then expanded into backend systems and minigame development.
         </>}
 
         links={<></>}
@@ -167,12 +209,12 @@ export const AmihanExperienceBox: React.FC = (props) => {
       />
 
       <ExperienceItem 
-        title="Research Project"
-        role="UI Development, Art Pipeline, Gameplay"
+        title="3D Browser Game Prototype"
+        role="UI, Art Pipeline, Gameplay"
         
         description={<>
-          After SnickSnack, we started prototyping a 3D browser game, where I led the engineering team. This included world 
-          space UI systems, a finished gameplay loop, shader experiments, benchmarking, and art pipeline tools.
+          Engineering lead on a 3D browser-game prototype, covering a complete gameplay loop,
+          world-space UI, shader experiments, performance benchmarks, and art-pipeline tools.
         </>}
 
         links={<></>}
@@ -208,13 +250,11 @@ export const AmihanExperienceBox: React.FC = (props) => {
 
       <ExperienceItem 
         title="Everseed"
-        role="Gameplay, Tools Development, UI Development, Frontend, Graphics"
+        role="Gameplay, Tools, UI, Web, Graphics"
         
         description={<>
-          We pivoted to a new roguelike tower defense prototype <b>Everseed</b>, 
-          where you grow plants to defend against enemy waves. My role on this project 
-          was primarily architecture, gameplay, and UI, with a focus on building 
-          content tooling. We launched a closed playtest in May 2022.
+          Players grow plants to defend against enemy waves in this roguelike tower-defense game.
+          My work focused on software architecture, gameplay systems, UI, and tools for creating game content.
         </>}
 
         links={<>
@@ -244,10 +284,8 @@ export const AmihanExperienceBox: React.FC = (props) => {
         role="Frontend"
         
         description={<>
-          In preparation for our first NFT launch, I led the frontend team to build the 
-          <> </><b>Everseed Elixir Website</b>, a digital shop where you could purchase an 
-          item to be consumed when minting your avatar in the <b>Everseed Avatar Creator</b>, a 
-          character customizer integrated with the core game.
+          Frontend work for Everseed’s NFT launch included the Elixir storefront and an avatar
+          customizer integrated with the game.
         </>}
 
         links={<></>}
@@ -267,31 +305,7 @@ export const AmihanExperienceBox: React.FC = (props) => {
         </>}
       />
 
-      <ExperienceItem
-        title="Farm Frens"
-        role="Frontend, Gameplay, Graphics"
 
-        description={<>
-          After my departure from Kraken, I joined Amihan once again as a consultant for frontend and WebGL development.
-          I worked on the rewrite of the Farm Frens mobile game, focusing on improving performance and building minigames in Cocos Creator.
-        </>}
-
-        links={<>
-          <IconLink type="Website" title="Website" href="https://farmfrens.com/" />
-        </>}
-
-        screenshots={<>
-          <Screenshot url={FarmFrens} small={FarmFrens} title="Farm Frens" />
-        </>}
-
-        technologies={[
-          "TypeScript",
-          "React",
-          "AWS",
-          "Figma",
-          "GLSL",
-        ]}
-      />
     </div>
   )
 }
@@ -299,7 +313,7 @@ export const AmihanExperienceBox: React.FC = (props) => {
 export const FwdslashExperienceBox: React.FC = (props) => {
   return (
     <div className="experience-box">
-      <h1>
+      <h3>
         <SVG src={Rakegg} />
 
         <span>
@@ -309,7 +323,7 @@ export const FwdslashExperienceBox: React.FC = (props) => {
         <span className="date text-dark">
           (Sept 2020 — Jan 2021)
         </span>
-      </h1>
+      </h3>
 
       <ExperienceItem
         title="Rake.GG"
@@ -344,7 +358,7 @@ export const FwdslashExperienceBox: React.FC = (props) => {
 export const AestellExperienceBox: React.FC = (props) => {
   return (
     <div className="experience-box">
-      <h1>
+      <h3>
         <SVG src={Aestell} />
 
         <span>
@@ -354,16 +368,15 @@ export const AestellExperienceBox: React.FC = (props) => {
         <span className="date text-dark">
           (Sept 2019 — Feb 2020)
         </span>
-      </h1>
+      </h3>
 
       <ExperienceItem
         title="AltX Bot Tools"
         role="Frontend"
 
         description={<>
-          A set of tools used in automating the user’s web browser. I joined an existing team 
-          to improve workflows and refactor code from previous frontend developers, and created 
-          new content utilizing SVG animations.
+          Browser-automation tools built with Electron and React. I improved workflows,
+          refactored the existing frontend, and added animated SVG interfaces.
         </>}
 
         links={<></>}
@@ -384,9 +397,8 @@ export const AestellExperienceBox: React.FC = (props) => {
         role="Frontend, Backend"
 
         description={<>
-          I led the team building Supscript, a service to provide users with a way to receive 
-          notifications for new sales on limited items. I built the dashboard for this app, the subscription service, 
-          and admin panel with analytics tools.
+          Supscript notified subscribers about limited-item releases. My work covered team leadership,
+          the customer dashboard, subscription billing, and administration and analytics tools.
         </>}
 
         links={<></>}
@@ -407,9 +419,8 @@ export const AestellExperienceBox: React.FC = (props) => {
         role="Frontend, Backend"
 
         description={<>
-          Our team built a mailing client to manage numerous email addresses simultaneously, 
-          and to filter through them for important mail. I designed and wrote the frontend, and 
-          maintained the backend after release.
+          Emails.GG brought multiple email accounts into one client, with filters for important messages.
+          I designed and built the frontend, then maintained backend services after launch.
         </>}
 
         links={<></>}
@@ -430,7 +441,7 @@ export const AestellExperienceBox: React.FC = (props) => {
 export const AeternumExperienceBox: React.FC = () => {
   return (
     <div className="experience-box">
-      <h1>
+      <h3>
         <SVG src={Aeternum} />
 
         <span>
@@ -440,15 +451,15 @@ export const AeternumExperienceBox: React.FC = () => {
         <span className="date text-dark">
           (June 2019 — Oct 2019)
         </span>
-      </h1>
+      </h3>
 
       <ExperienceItem
         title="Firefight Launcher"
         role="Frontend"
 
         description={<>
-          I collaborated with various designers and game/systems engineers to build a desktop launcher for 
-          the Firefight game server, which would launch and configure the user's Minecraft client to load into the game.
+          Firefight needed a desktop launcher to configure Minecraft clients and connect players to its server.
+          I developed the frontend in collaboration with designers and game engineers.
         </>}
 
         links={<></>}
@@ -470,7 +481,7 @@ export const AeternumExperienceBox: React.FC = () => {
 export const StardustExperienceBox: React.FC = () => {
   return (
     <div className="experience-box">
-      <h1>
+      <h3>
         <SVG src={Stardust} />
 
         <span>
@@ -480,15 +491,15 @@ export const StardustExperienceBox: React.FC = () => {
         <span className="date text-dark">
           (Oct 2018 — Nov 2018)
         </span>
-      </h1>
+      </h3>
 
       <ExperienceItem
         title="Stardust Publisher Tools"
         role="Frontend"
 
         description={<>
-          Desktop client for Stardust publishers to allow posting video game assets to a blockchain 
-          for use in digital marketplaces. I designed the interface and developed the frontend for the app.
+          Stardust’s publishing tools let game developers register assets on a blockchain for use in digital
+          marketplaces. My role covered interface design and frontend development.
         </>}
 
         links={<></>}
@@ -512,7 +523,7 @@ export const StardustExperienceBox: React.FC = () => {
 export const KrakenExperienceBox: React.FC = () => {
   return (
     <div className="experience-box">
-      <h1>
+      <h3>
         <SVG src={Kraken} />
 
         <span>
@@ -522,15 +533,15 @@ export const KrakenExperienceBox: React.FC = () => {
         <span className="date text-dark">
           (Aug 2024 — Feb 2025)
         </span>
-      </h1>
+      </h3>
 
       <ExperienceItem
         title="Marketing Department"
         role="Frontend"
 
         description={<>
-          As part of Kraken's marketing team, I helped streamline publishing workflows, improved SEO in the learning center,
-          built content authoring tools for our in-house CMS, and mentored frontend developers in frontend best practices.
+          I contributed to marketing-site publishing workflows, internal CMS tools, and technical SEO
+          for the learning center. I also helped frontend colleagues improve code quality and development practices.
         </>}
 
         links={<>
@@ -556,47 +567,35 @@ export const KrakenExperienceBox: React.FC = () => {
 
 export const HealthExperienceBox: React.FC = () => {
   return (
-    <div className="experience-box">
-      <h1>
-        <img src={Health} />
+    <div className="experience-box" id="health">
+      <h3>
+        <img src={Health} alt="HEALTH" />
 
         <span>
           Health
         </span>
 
         <span className="date text-dark">
-          (Apr 2024 — Oct 2025)
+          (April 2024 - Present)
         </span>
-      </h1>
+      </h3>
 
       <ExperienceItem
-        title="Launcher"
+        title="HEALTH+ Launcher"
         role="Frontend, Backend, Design"
-
         description={<>
-          The HEALTH launcher is a platform for patrons of the band to access exclusive content,
-          behind-the-scenes media, and early releases. I led the design and development of the 
-          launcher, working closely with the band to create a unique experience for their fans.
+          I designed and developed the original HEALTH+ launcher in close collaboration with the band,
+          creating a custom platform for patrons to access exclusive content, behind-the-scenes media,
+          and early releases. The project included the initial build and subsequent updates.
         </>}
-
         links={<>
-          <IconLink type="Website" title="Launcher" href="https://healthplus.plus" />
           <IconLink type="Patreon" title="Patreon" href="https://www.patreon.com/healthplus" />
           <IconLink type="Instagram" title="Instagram" href="https://www.instagram.com/_health_" />
         </>}
-        
-        technologies={[
-          "React",
-          "TypeScript",
-          "AWS",
-          "Figma",
-          "Sanity",
-        ]}
-
+        technologies={["React", "TypeScript", "AWS", "Figma", "Sanity"]}
         screenshots={<>
-          <Screenshot url={HealthMp4} small={HealthMp4Small} title="HEALTH Launcher" />
+          <Screenshot url={HealthMp4} small={HealthMp4Small} title="HEALTH+ Launcher v2" />
         </>}
-
       />
 
       <ExperienceItem
@@ -609,9 +608,7 @@ export const HealthExperienceBox: React.FC = () => {
           and animations, all while maintaining smooth scrolling and transitions.
         </>}
 
-        links={<>
-          <IconLink type="Website" title="Thought Leader Promo" href="https://healthplus.plus/THOUGHTLEADER" />
-        </>}
+        links={<></>}
         
         technologies={[
           "React",
@@ -623,15 +620,38 @@ export const HealthExperienceBox: React.FC = () => {
           <Screenshot url={ThoughtLeaderMp4} small={ThoughtLeaderMp4Small} title="Thought Leader Promo" />
         </>}
       />
+
+      <ExperienceItem
+        title="HEALTH+ Platform Redesign"
+        role="Design, Frontend, Backend, Tools"
+        description={<>
+          I redesigned HEALTH+ with a searchable media library, audio playback and downloads,
+          and personalized accounts with badges, stats, and unlockables. I handled the product
+          and UI design alongside frontend and backend development.
+          <br /><br />
+          I also built content administration and media-processing tools, passwordless login,
+          and Patreon and Discord integrations. When Patreon webhooks became unreliable,
+          I developed automated membership reconciliation to keep patron access and Discord roles in sync.
+        </>}
+        links={<>
+          <IconLink type="Website" title="Members Library" href="https://healthplus.plus/members" />
+          <IconLink type="Website" title="Account" href="https://healthplus.plus/members/account" />
+        </>}
+        technologies={["React", "TypeScript", "AWS", "Figma", "Electron", "Discord.JS"]}
+        screenshots={<>
+          <Screenshot url={HealthMembers2026} small={HealthMembers2026Small} title="HEALTH+ Launcher v3 members library" />
+          <Screenshot url={HealthAccount2026} small={HealthAccount2026Small} title="HEALTH+ Launcher v3 account and progression" />
+        </>}
+      />
     </div> 
   )
 }
 
 export const TripshredExperienceBox: React.FC = () => {
   return (
-    <div className="experience-box">
-      <h1>
-        <img src={TripShred} />
+    <div className="experience-box" id="tripshred">
+      <h3>
+        <SVG src={TripShred} />
 
         <span>
           TripShred
@@ -640,7 +660,28 @@ export const TripshredExperienceBox: React.FC = () => {
         <span className="date text-dark">
           (GAME STUDIO)
         </span>
-      </h1>
+      </h3>
+
+    <ExperienceItem
+      title="8-ball pool"
+      role="Gameplay, Graphics, Networking"
+      description={<>
+        This browser-based 8-ball pool prototype combines a custom billiards simulation, 3D rendering,
+        and relay-backed multiplayer. Simulation, rules, rendering, and networking are separated;
+        command replay, state hashing, and reconnect recovery support multiplayer consistency.
+        Bot opponents evaluate simulated shots using power, spin, and elevation.
+        <br /><br />
+        Localized into 21 languages across 25 locales, with automated Playwright UI and visual
+        regression tests covering layout, text scaling, and interactions.
+      </>}
+      technologies={["TypeScript", "Three.js", "WebSockets"]}
+      links={<><IconLink type="Website" title="Play 8-ball pool" href="https://andressweeneyrios.github.io/8ball/" />
+        <IconLink type="Github" title="Source Code" href="https://github.com/AndresSweeneyRios/8ball" /></>}
+      screenshots={<>
+        <Screenshot url={EightBallMenu} small={EightBallMenuSmall} title="8-ball pool localized menu" />
+        <Screenshot url={EightBallGame} small={EightBallGameSmall} position="center top" title="8-ball pool gameplay" />
+      </>}
+    />
 
       <ExperienceItem
         title="Architect Engine"
@@ -650,7 +691,7 @@ export const TripshredExperienceBox: React.FC = () => {
           Native WebGPU game engine I built in TypeScript, featuring a custom deferred renderer 
           with a stylized post-process stage using palette quantization and ordered dithering. 
           The runtime uses an ECS-style state model and Rapier3D physics integration. To compress the 3D assets,
-          I build a custom GLTF pipeline that packs color channels and atlases textures.
+          I built a custom GLTF pipeline that packs color channels and atlases textures.
         </>}
 
         links={<>

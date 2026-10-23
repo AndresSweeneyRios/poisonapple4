@@ -1,0 +1,18 @@
+Static portfolio build
+
+npm run dev      Vite development server with normal React live editing
+npm run build    Generate dist/index.html containing the complete portfolio
+npm run preview  Serve the generated production site locally
+
+scripts/build.mjs builds the small background client and then renders App.tsx
+at build time using React's server renderer. The server build emits the static
+page's CSS, images, and videos, which are copied into dist/assets. The temporary
+.ssg build is removed. No Node server is needed in production.
+
+The generated content, icons, links, and screenshot thumbnails work without
+JavaScript. src/index.tsx hydrates only BackgroundCanvas; the portfolio content
+is not duplicated in the production client bundle. The full App is loaded only
+in development. InlineSvg embeds trusted repository SVG markup at build time.
+
+Static hosts can keep npm run build as their build command and dist as their
+publish directory. This change does not configure or trigger deployment.

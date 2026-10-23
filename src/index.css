@@ -1,3 +1,7 @@
+#root {
+  display: contents;
+}
+
 *, *::before, *::after {
   margin: 0;
   padding: 0;
@@ -74,7 +78,7 @@ main {
 
 @media (max-width: 900px) {
   :root {
-    font-size: 1.5vw;
+    font-size: 14px;
   }
 }
 
@@ -163,3 +167,68 @@ p a:hover {
 :root body svg {
   overflow: visible;
 }
+
+@media (max-width: 600px) {
+  :root {
+    font-size: 14px;
+  }
+
+  body {
+    padding: 4rem 1.5rem;
+    background: none;
+  }
+
+  /* A fixed, large-viewport layer stays covered while mobile browser chrome moves. */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    height: 100vh;
+    height: 100lvh;
+    background: url("./assets/dissolve.png") repeat;
+    background-size: 256px;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  main {
+    width: 100%;
+    min-width: 0;
+    min-height: 100svh;
+    gap: 5rem;
+  }
+
+  #intro h1 {
+    font-size: 1.65rem;
+    line-height: 1.2;
+  }
+
+  #intro p {
+    font-size: 1.125rem;
+  }
+
+  #intro .social {
+    font-size: 1rem;
+    gap: 0.8rem;
+    padding: 0.4rem 0;
+  }
+
+  #intro {
+    gap: 1.4rem;
+  }
+
+  #intro div.contact {
+    font-size: 0.95rem;
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (max-width: 600px) {
+  .experience-container > h2 {
+    font-size: 2rem;
+  }
+}
+
+.experience-container > h2 { font-size: 2.3em; font-weight: 400; }
+.experience-box > h3, .experience-item > div > h4 { font-weight: 400; }
+@media (max-width: 600px) { .experience-container > h2 { font-size: 2rem; } }
