@@ -52,8 +52,9 @@
   align-items: stretch;
 }
 
-.experience-item:last-child .bar {
-  clip-path: inset(0 0 calc(100% - (3.2rem / 2) - 0.25em) 0);
+.experience-item:last-child .bar::before {
+  height: calc(3.2rem / 2);
+  top: 0;
 }
 
 .experience-item .bar {
@@ -245,8 +246,8 @@
     top: 1rem;
   }
 
-  .experience-item:last-child .bar {
-    clip-path: inset(0 0 calc(100% - 1.25rem) 0);
+  .experience-item:last-child .bar::before {
+    height: 1.25rem;
   }
 
   .experience-item .title {
