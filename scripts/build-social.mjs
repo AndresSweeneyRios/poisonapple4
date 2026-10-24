@@ -1,8 +1,6 @@
 import sharp from 'sharp'
 
 const apple = 'src/assets/lowpoly_apple_transparent.webp'
-await sharp(apple).resize(96, 96, { fit: 'contain', background: '#0b0705' }).png().toFile('public/favicon-96.png')
-await sharp(apple).resize(180, 180, { fit: 'contain', background: '#0b0705' }).png().toFile('public/apple-touch-icon.png')
 const image = async path => `data:image/png;base64,${(await sharp(path).resize({ width: 700, withoutEnlargement: true }).png().toBuffer()).toString('base64')}`
 const [mark, pool, health] = await Promise.all([
   image(apple), image('src/assets/screenshots/8ball-in-game.png'), image('src/assets/screenshots/health-members-2026.png'),
@@ -28,4 +26,4 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" v
 <text x="760" y="573" fill="#d0c9d4" font-size="18">HEALTH+ · membership platform</text>
 </g></svg>`
 await sharp(Buffer.from(svg)).png().toFile('public/social-preview.png')
-console.log('Generated social preview and square brand icons')
+console.log('Generated social preview; original favicon assets preserved')
