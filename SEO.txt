@@ -8,9 +8,11 @@ Schema: Person, WebSite, ProfilePage, three CreativeWork projects and one
 SoftwareSourceCode project. Project URLs point at real section anchors. No
 invented ratings, pricing, qualifications, traffic numbers, or review snippets.
 
-npm run seo:images regenerates the 1200x630 social card and square brand icons
-from existing artwork and screenshots. These generated public files are included
-in npm run build. Social cards are intended for shared links; Google controls
+The original public/thumbnail.jpeg (1200x620 JPEG) is the canonical preview
+for Open Graph, Twitter and JSON-LD. Its dimensions, type and alt text share
+one configuration in scripts/metadata.mjs. npm run seo:images validates it and
+updates the legacy social-preview.png URL with the same artwork; it does not
+redesign the thumbnail or overwrite favicons. Public files are included in npm run build. Social cards are intended for shared links; Google controls
 its own result layout and may rewrite titles/descriptions.
 
 The sitemap includes only the canonical homepage. Fragment anchors are not
