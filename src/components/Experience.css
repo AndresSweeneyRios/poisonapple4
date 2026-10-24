@@ -297,3 +297,41 @@
     align-items: start;
   }
 }
+
+@media (min-width: 601px) {
+  /* Original desktop thumbnail proportions and crop behavior. */
+  .experience-item .screenshots a {
+    aspect-ratio: 15 / 9.5;
+    position: relative;
+    background-size: auto 110%;
+    background-position: center;
+    transition: background-size 0.1s ease-out;
+  }
+
+  .experience-item .screenshots .screenshot-image {
+    display: none;
+  }
+
+  .experience-item .screenshots a video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.1s ease-out;
+  }
+
+  .experience-item .screenshots a:hover {
+    background-size: auto 120%;
+  }
+
+  .experience-item .screenshots a:hover video {
+    transform: scale(1.2);
+  }
+}
+
+@media (max-width: 600px) {
+  .experience-item .screenshots a {
+    background-size: 0;
+  }
+}

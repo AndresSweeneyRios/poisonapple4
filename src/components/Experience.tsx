@@ -85,7 +85,7 @@ export const Screenshot: React.FC<{
   }
 
   return (
-    <a href={props.url} title={props.title}>
+    <a href={props.url} title={props.title} style={{ backgroundImage: `url(${props.small || props.url})`, backgroundPosition: props.position }}>
       <img className="screenshot-image" src={props.small || props.url} alt={props.title} loading="lazy" style={{ objectPosition: props.position }} />
     </a>
   )
