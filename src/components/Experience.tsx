@@ -106,7 +106,7 @@ export const ExperienceItem: React.FC<{
 
       <div>
         <h4 className="title">
-          {props.title}
+          <span className="project-name">{props.title}</span>
           <span className="text-dark">
             ({props.role})
           </span>
